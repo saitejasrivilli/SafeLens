@@ -22,7 +22,9 @@ def fit_vectorizer(train_texts: list[str], config: TfidfConfig) -> TfidfVectoriz
 
 
 def fit_model(
-    X_train, y_train: list[int], config: LogisticRegressionConfig  # noqa: N803
+    X_train,
+    y_train: list[int],
+    config: LogisticRegressionConfig,  # noqa: N803
 ) -> LogisticRegression:
     model = LogisticRegression(
         C=config.C,

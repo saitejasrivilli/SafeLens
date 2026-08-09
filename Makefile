@@ -35,3 +35,9 @@ baseline-train:
 
 baseline-test:
 	.venv/bin/pytest -v tests/unit/models
+
+deberta-train:
+	.venv/bin/python scripts/train_deberta.py
+
+deberta-test:
+	.venv/bin/pytest -v tests/unit/models/deberta

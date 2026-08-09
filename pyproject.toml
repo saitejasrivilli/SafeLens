@@ -10,6 +10,11 @@ dependencies = [
     "requests>=2.31",
     "scikit-learn>=1.4",
     "matplotlib>=3.8",
+    "torch>=2.2",
+    "transformers>=4.40",
+    "accelerate>=0.30",
+    "sentencepiece>=0.2",
+    "protobuf>=4.25",
 ]
 
 [project.optional-dependencies]

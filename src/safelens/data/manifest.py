@@ -21,8 +21,7 @@ def sha256_examples(examples: list[ModerationExample]) -> str:
     """Order-independent content hash: sort by content_id first so the hash
     only changes when the actual example set changes, not list ordering."""
     payload = "\n".join(
-        f"{ex.content_id}|{ex.text}"
-        for ex in sorted(examples, key=lambda e: e.content_id)
+        f"{ex.content_id}|{ex.text}" for ex in sorted(examples, key=lambda e: e.content_id)
     )
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 

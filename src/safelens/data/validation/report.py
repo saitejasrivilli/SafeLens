@@ -21,9 +21,7 @@ LABEL_NAMES = [
 ]
 
 
-def build_validation_report(
-    raw_rows: list[dict[str, Any]], dataset_version: str
-) -> dict[str, Any]:
+def build_validation_report(raw_rows: list[dict[str, Any]], dataset_version: str) -> dict[str, Any]:
     valid: list[ModerationExample] = []
     malformed: list[dict[str, Any]] = []
     invalid: list[dict[str, Any]] = []
