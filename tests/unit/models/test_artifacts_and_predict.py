@@ -12,7 +12,8 @@ TRAIN_LABELS = [0, 1, 0]
 
 def _trained():
     vectorizer = fit_vectorizer(TRAIN_TEXTS, TfidfConfig(min_df=1))
-    model = fit_model(vectorizer.transform(TRAIN_TEXTS), TRAIN_LABELS, BaselineConfig().logistic_regression)
+    lr_config = BaselineConfig().logistic_regression
+    model = fit_model(vectorizer.transform(TRAIN_TEXTS), TRAIN_LABELS, lr_config)
     return vectorizer, model
 
 
