@@ -1,0 +1,43 @@
+{
+  "duplicate_content_found": 0,
+  "duplicate_ids_found": 18,
+  "invalid_examples": [],
+  "invalid_rows": 0,
+  "label_distribution": {
+    "identity_attack": {
+      "fraction_ge_0.5": 0.00425,
+      "mean": 0.01643148389075941
+    },
+    "insult": {
+      "fraction_ge_0.5": 0.035875,
+      "mean": 0.058035334022701134
+    },
+    "obscene": {
+      "fraction_ge_0.5": 0.007125,
+      "mean": 0.01305216337996535
+    },
+    "severe_toxicity": {
+      "fraction_ge_0.5": 0.0,
+      "mean": 0.0032574143995370832
+    },
+    "sexual_explicit": {
+      "fraction_ge_0.5": 0.002625,
+      "mean": 0.006179838192387251
+    },
+    "threat": {
+      "fraction_ge_0.5": 0.000875,
+      "mean": 0.007319661728470237
+    },
+    "toxicity": {
+      "fraction_ge_0.5": 0.0515,
+      "mean": 0.07632822509163088
+    }
+  },
+  "malformed_examples": [],
+  "malformed_rows": 0,
+  "normalized_duplicate_examples": 37,
+  "normalized_duplicate_groups": 18,
+  "total_rows": 8000,
+  "unique_valid_rows_after_dedup": 7982,
+  "valid_rows": 8000
+}

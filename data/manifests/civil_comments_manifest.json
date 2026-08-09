@@ -1,0 +1,26 @@
+{
+  "dataset_name": "google/civil_comments",
+  "dataset_version": "google/civil_comments@train:0-8000",
+  "label_distribution_fraction_ge_0.5": {
+    "identity_attack": 0.004259584064144325,
+    "insult": 0.035705337008268605,
+    "obscene": 0.006890503633174643,
+    "severe_toxicity": 0.0,
+    "sexual_explicit": 0.0026309195690303183,
+    "threat": 0.0008769731896767727,
+    "toxicity": 0.0511150087697319
+  },
+  "license": "cc0-1.0",
+  "num_records": 7982,
+  "preprocessing_version": "v1",
+  "processed_data_hash": "0db4bc377b5839603395f36afc8a47f016c4c5bc3ebd01f4cb10dddb8a39ac09",
+  "random_seed": 42,
+  "raw_data_hash": "f567888a6925c35258d30acbccfb13724b280574bce090e23ece51145f954278",
+  "retrieval_date": "2026-08-09T16:05:55.492495+00:00",
+  "source_url": "https://huggingface.co/datasets/google/civil_comments",
+  "split_sizes": {
+    "test": 1197,
+    "train": 5588,
+    "validation": 1197
+  }
+}
