@@ -1,0 +1,491 @@
+{
+  "comparison_vs_baseline": {
+    "f1": {
+      "absolute_delta": 0.21671826625386992,
+      "baseline": 0.27450980392156865,
+      "deberta": 0.49122807017543857,
+      "relative_delta": 0.7894736842105261
+    },
+    "false_negative_rate": {
+      "absolute_delta": -0.2295081967213114,
+      "baseline": 0.7704918032786885,
+      "deberta": 0.5409836065573771,
+      "relative_delta": -0.29787234042553185
+    },
+    "false_positive_rate": {
+      "absolute_delta": -0.0017605633802816913,
+      "baseline": 0.023767605633802816,
+      "deberta": 0.022007042253521125,
+      "relative_delta": -0.07407407407407413
+    },
+    "pr_auc": {
+      "absolute_delta": 0.21573903878921624,
+      "baseline": 0.2708072245649316,
+      "deberta": 0.48654626335414786,
+      "relative_delta": 0.7966517109571734
+    },
+    "precision": {
+      "absolute_delta": 0.18683847215830646,
+      "baseline": 0.34146341463414637,
+      "deberta": 0.5283018867924528,
+      "relative_delta": 0.5471698113207546
+    },
+    "recall": {
+      "absolute_delta": 0.22950819672131148,
+      "baseline": 0.22950819672131148,
+      "deberta": 0.45901639344262296,
+      "relative_delta": 1.0
+    }
+  },
+  "config": {
+    "decision_threshold": {
+      "candidates": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "selection_metric": "f1"
+    },
+    "hf_model_name": "microsoft/deberta-v3-small",
+    "hf_model_revision": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "label": {
+      "ground_truth_threshold": 0.5,
+      "target": "toxicity"
+    },
+    "model_name": "deberta-v3-small-toxicity",
+    "model_version": "v1",
+    "tokenizer": {
+      "max_seq_length": 256
+    },
+    "training": {
+      "early_stopping_patience": 2,
+      "epochs": 3,
+      "eval_batch_size": 32,
+      "gradient_accumulation_steps": 2,
+      "learning_rate": 2e-05,
+      "max_grad_norm": 1.0,
+      "model_selection_metric": "pr_auc",
+      "seed": 42,
+      "train_batch_size": 16,
+      "use_class_weighting": true,
+      "warmup_ratio": 0.1,
+      "weight_decay": 0.01
+    }
+  },
+  "dataset_manifest": {
+    "dataset_name": "google/civil_comments",
+    "dataset_version": "google/civil_comments@train:0-8000",
+    "label_distribution_fraction_ge_0.5": {
+      "identity_attack": 0.004259584064144325,
+      "insult": 0.035705337008268605,
+      "obscene": 0.006890503633174643,
+      "severe_toxicity": 0.0,
+      "sexual_explicit": 0.0026309195690303183,
+      "threat": 0.0008769731896767727,
+      "toxicity": 0.0511150087697319
+    },
+    "license": "cc0-1.0",
+    "num_records": 7982,
+    "preprocessing_version": "v1",
+    "processed_data_hash": "0db4bc377b5839603395f36afc8a47f016c4c5bc3ebd01f4cb10dddb8a39ac09",
+    "random_seed": 42,
+    "raw_data_hash": "f567888a6925c35258d30acbccfb13724b280574bce090e23ece51145f954278",
+    "retrieval_date": "2026-08-09T16:05:55.492495+00:00",
+    "source_url": "https://huggingface.co/datasets/google/civil_comments",
+    "split_sizes": {
+      "test": 1197,
+      "train": 5588,
+      "validation": 1197
+    }
+  },
+  "dataset_manifest_reference": "/content/SafeLens/data/manifests/civil_comments_manifest.json",
+  "dataset_version": "google/civil_comments@train:0-8000",
+  "environment": {
+    "cuda_available": true,
+    "device": "cuda",
+    "device_reason": "torch.cuda.is_available()",
+    "git_commit": "9a2eceddd75255b8310374cfe634d0c628f097a7",
+    "mps_available": false,
+    "packages": {
+      "accelerate": "1.14.0",
+      "scikit-learn": "1.6.1",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.13.1"
+    },
+    "python_version": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]"
+  },
+  "error_analysis": {
+    "high_confidence_false_negatives": [
+      {
+        "content_id": "e37282c9e7cab5f4",
+        "predicted_probability": 0.0033,
+        "text_excerpt": "Tim: \"...randomizing who gets what comment on what issue, so it separates the peer review from the s...",
+        "true_label": 1
+      },
+      {
+        "content_id": "174d6847a89609d2",
+        "predicted_probability": 0.0041,
+        "text_excerpt": "A big, fat, juicy pig, gorging itself at the taxpayer's trough. The organizers will make a fortune,...",
+        "true_label": 1
+      },
+      {
+        "content_id": "8b908126aab5726c",
+        "predicted_probability": 0.0084,
+        "text_excerpt": "I was talking about the comments here---I wouldn't be so crazy to expect our puppet legislators to b...",
+        "true_label": 1
+      },
+      {
+        "content_id": "79ec9c39665849a1",
+        "predicted_probability": 0.009,
+        "text_excerpt": "\"Trash...present in the rest of downtown Portland\" is a pretty low bar to set.  I hope I never have...",
+        "true_label": 1
+      },
+      {
+        "content_id": "bf173ea1b5cab87a",
+        "predicted_probability": 0.0098,
+        "text_excerpt": "Imago Dei & Pastor McKinley believe that gay sex is sinful and that gays do not deserve the protecti...",
+        "true_label": 1
+      }
+    ],
+    "high_confidence_false_positives": [
+      {
+        "content_id": "071686670a3d61f1",
+        "predicted_probability": 0.9917,
+        "text_excerpt": "Anyone who thinks Star Trek is superior is obviously a complete nincompoop.   Let's just leave the n...",
+        "true_label": 0
+      },
+      {
+        "content_id": "7cadbc20bdbe297e",
+        "predicted_probability": 0.991,
+        "text_excerpt": "This is straigtup SJW bullllshit!!!! :(",
+        "true_label": 0
+      },
+      {
+        "content_id": "f9d21b76b85ceba2",
+        "predicted_probability": 0.9909,
+        "text_excerpt": "This generation of kids is lost. No respect, no responsibility, no role models outside the nutjobs o...",
+        "true_label": 0
+      },
+      {
+        "content_id": "8b73e45b03c471db",
+        "predicted_probability": 0.9884,
+        "text_excerpt": "Hey if Nike and Intel want to fund a light rail line over the Tuallitan Mountains across cross the r...",
+        "true_label": 0
+      },
+      {
+        "content_id": "e8189ae61f1de022",
+        "predicted_probability": 0.9874,
+        "text_excerpt": "mary, if people weren't supporting these buffoons they wouldn't be an issue.  this is a deeper, mora...",
+        "true_label": 0
+      }
+    ],
+    "threshold": 0.9,
+    "total_false_negatives": 33,
+    "total_false_positives": 25
+  },
+  "hf_model_name": "microsoft/deberta-v3-small",
+  "hf_model_revision": "a36c739020e01763fe789b4b85e2df55d6180012",
+  "inference_benchmark": {
+    "batch_throughput": {
+      "batch_size": 32,
+      "test_set_size": 1197,
+      "throughput_examples_per_second": 86.05655545433403,
+      "total_seconds": 13.909457492000001
+    },
+    "end_to_end": {
+      "batch_size": 1,
+      "device": "cuda:0",
+      "measured_iterations": 50,
+      "p50_ms": 15.64394750005249,
+      "p95_ms": 17.753198300022174,
+      "p99_ms": 21.538165940030463,
+      "sequence_length": 256,
+      "throughput_examples_per_second": 63.1760355425686,
+      "warmup_iterations": 5
+    },
+    "environment": "Measured on Google Colab GPU (Linux-6.6.122+-x86_64), device=cuda:0",
+    "model_only": {
+      "batch_size": 1,
+      "device": "cuda:0",
+      "measured_iterations": 50,
+      "p50_ms": 15.555858499965325,
+      "p95_ms": 17.790606349967675,
+      "p99_ms": 18.828247800024652,
+      "sequence_length": 256,
+      "throughput_examples_per_second": 64.35707305895757,
+      "warmup_iterations": 5
+    }
+  },
+  "max_seq_length": 256,
+  "model_name": "deberta-v3-small-toxicity",
+  "model_version": "v1",
+  "parameter_count": 141896450,
+  "selected_threshold": 0.9,
+  "split_sizes": {
+    "test": 1197,
+    "train": 5588,
+    "validation": 1197
+  },
+  "test_metrics_at_selected_threshold": {
+    "accuracy": 0.9515455304928989,
+    "confusion_matrix": {
+      "false_negative": 33,
+      "false_positive": 25,
+      "true_negative": 1111,
+      "true_positive": 28
+    },
+    "f1": 0.49122807017543857,
+    "false_negative_rate": 0.5409836065573771,
+    "false_positive_rate": 0.022007042253521125,
+    "macro_f1": 0.7328947368421053,
+    "n": 1197,
+    "positive_prediction_rate": 0.04427736006683375,
+    "pr_auc": 0.48654626335414786,
+    "precision": 0.5283018867924528,
+    "recall": 0.45901639344262296,
+    "roc_auc": 0.9316843685061187,
+    "threshold": 0.9
+  },
+  "test_metrics_at_threshold_0.5": {
+    "accuracy": 0.9381787802840434,
+    "confusion_matrix": {
+      "false_negative": 25,
+      "false_positive": 49,
+      "true_negative": 1087,
+      "true_positive": 36
+    },
+    "f1": 0.4931506849315068,
+    "false_negative_rate": 0.4098360655737705,
+    "false_positive_rate": 0.043133802816901406,
+    "macro_f1": 0.7301162677326574,
+    "n": 1197,
+    "positive_prediction_rate": 0.07101086048454469,
+    "pr_auc": 0.48654626335414786,
+    "precision": 0.4235294117647059,
+    "recall": 0.5901639344262295,
+    "roc_auc": 0.9316843685061187,
+    "threshold": 0.5
+  },
+  "threshold_sweep": [
+    {
+      "accuracy": 0.9206349206349206,
+      "confusion_matrix": {
+        "false_negative": 13,
+        "false_positive": 82,
+        "true_negative": 1054,
+        "true_positive": 48
+      },
+      "f1": 0.5026178010471204,
+      "false_negative_rate": 0.21311475409836064,
+      "false_positive_rate": 0.0721830985915493,
+      "macro_f1": 0.7297473934877,
+      "n": 1197,
+      "positive_prediction_rate": 0.1086048454469507,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.36923076923076925,
+      "recall": 0.7868852459016393,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.1
+    },
+    {
+      "accuracy": 0.9373433583959899,
+      "confusion_matrix": {
+        "false_negative": 16,
+        "false_positive": 59,
+        "true_negative": 1077,
+        "true_positive": 45
+      },
+      "f1": 0.5454545454545454,
+      "false_negative_rate": 0.26229508196721313,
+      "false_positive_rate": 0.05193661971830986,
+      "macro_f1": 0.7559035849749174,
+      "n": 1197,
+      "positive_prediction_rate": 0.08688387635756056,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.4326923076923077,
+      "recall": 0.7377049180327869,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.2
+    },
+    {
+      "accuracy": 0.9381787802840434,
+      "confusion_matrix": {
+        "false_negative": 18,
+        "false_positive": 56,
+        "true_negative": 1080,
+        "true_positive": 43
+      },
+      "f1": 0.5375,
+      "false_negative_rate": 0.29508196721311475,
+      "false_positive_rate": 0.04929577464788732,
+      "macro_f1": 0.7521877797672336,
+      "n": 1197,
+      "positive_prediction_rate": 0.08270676691729323,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.43434343434343436,
+      "recall": 0.7049180327868853,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.3
+    },
+    {
+      "accuracy": 0.9406850459482038,
+      "confusion_matrix": {
+        "false_negative": 18,
+        "false_positive": 53,
+        "true_negative": 1083,
+        "true_positive": 43
+      },
+      "f1": 0.5477707006369427,
+      "false_negative_rate": 0.29508196721311475,
+      "false_positive_rate": 0.04665492957746479,
+      "macro_f1": 0.7580158822809211,
+      "n": 1197,
+      "positive_prediction_rate": 0.08020050125313283,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.4479166666666667,
+      "recall": 0.7049180327868853,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.4
+    },
+    {
+      "accuracy": 0.949874686716792,
+      "confusion_matrix": {
+        "false_negative": 19,
+        "false_positive": 41,
+        "true_negative": 1095,
+        "true_positive": 42
+      },
+      "f1": 0.5833333333333334,
+      "false_negative_rate": 0.3114754098360656,
+      "false_positive_rate": 0.03609154929577465,
+      "macro_f1": 0.7783333333333333,
+      "n": 1197,
+      "positive_prediction_rate": 0.06934001670843776,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.5060240963855421,
+      "recall": 0.6885245901639344,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.5
+    },
+    {
+      "accuracy": 0.9515455304928989,
+      "confusion_matrix": {
+        "false_negative": 20,
+        "false_positive": 38,
+        "true_negative": 1098,
+        "true_positive": 41
+      },
+      "f1": 0.5857142857142857,
+      "false_negative_rate": 0.32786885245901637,
+      "false_positive_rate": 0.03345070422535211,
+      "macro_f1": 0.7799911268855368,
+      "n": 1197,
+      "positive_prediction_rate": 0.06599832915622389,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.5189873417721519,
+      "recall": 0.6721311475409836,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.6
+    },
+    {
+      "accuracy": 0.9540517961570593,
+      "confusion_matrix": {
+        "false_negative": 22,
+        "false_positive": 33,
+        "true_negative": 1103,
+        "true_positive": 39
+      },
+      "f1": 0.5864661654135338,
+      "false_negative_rate": 0.36065573770491804,
+      "false_positive_rate": 0.029049295774647887,
+      "macro_f1": 0.7810703228659885,
+      "n": 1197,
+      "positive_prediction_rate": 0.06015037593984962,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.5416666666666666,
+      "recall": 0.639344262295082,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.7
+    },
+    {
+      "accuracy": 0.9565580618212197,
+      "confusion_matrix": {
+        "false_negative": 22,
+        "false_positive": 30,
+        "true_negative": 1106,
+        "true_positive": 39
+      },
+      "f1": 0.6,
+      "false_negative_rate": 0.36065573770491804,
+      "false_positive_rate": 0.02640845070422535,
+      "macro_f1": 0.7885159010600706,
+      "n": 1197,
+      "positive_prediction_rate": 0.05764411027568922,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.5652173913043478,
+      "recall": 0.639344262295082,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.8
+    },
+    {
+      "accuracy": 0.9615705931495405,
+      "confusion_matrix": {
+        "false_negative": 26,
+        "false_positive": 20,
+        "true_negative": 1116,
+        "true_positive": 35
+      },
+      "f1": 0.603448275862069,
+      "false_negative_rate": 0.4262295081967213,
+      "false_positive_rate": 0.017605633802816902,
+      "macro_f1": 0.7916275619872242,
+      "n": 1197,
+      "positive_prediction_rate": 0.04594820384294068,
+      "pr_auc": 0.6769732815619892,
+      "precision": 0.6363636363636364,
+      "recall": 0.5737704918032787,
+      "roc_auc": 0.954470676518125,
+      "threshold": 0.9
+    }
+  ],
+  "training_environment": {
+    "cuda_available": true,
+    "device": "cuda:0",
+    "effective_batch_size": 32,
+    "epochs_configured": 3,
+    "gradient_accumulation_steps": 2,
+    "max_seq_length": 256,
+    "mps_available": false,
+    "os": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "python_version": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "torch_version": "2.11.0+cu128",
+    "train_batch_size": 16,
+    "training_duration_seconds": 602.8855948280001
+  },
+  "validation_metrics_at_threshold_0.5": {
+    "accuracy": 0.949874686716792,
+    "confusion_matrix": {
+      "false_negative": 19,
+      "false_positive": 41,
+      "true_negative": 1095,
+      "true_positive": 42
+    },
+    "f1": 0.5833333333333334,
+    "false_negative_rate": 0.3114754098360656,
+    "false_positive_rate": 0.03609154929577465,
+    "macro_f1": 0.7783333333333333,
+    "n": 1197,
+    "positive_prediction_rate": 0.06934001670843776,
+    "pr_auc": 0.6769732815619892,
+    "precision": 0.5060240963855421,
+    "recall": 0.6885245901639344,
+    "roc_auc": 0.954470676518125,
+    "threshold": 0.5
+  }
+}

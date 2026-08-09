@@ -257,7 +257,7 @@ def main() -> None:
         "comparison_vs_baseline": comparison,
         "error_analysis": error_analysis,
         "inference_benchmark": {
-            "environment": "Measured locally on Apple M2",
+            "environment": f"Measured on {platform.platform()}, device={actual_device}",
             "model_only": model_only_bench.__dict__,
             "end_to_end": end_to_end_bench.__dict__,
             "batch_throughput": {
