@@ -1,0 +1,741 @@
+{
+  "ablation": {
+    "fusion_full_test_metrics_at_0.5": {
+      "accuracy": 0.7920792079207921,
+      "confusion_matrix": {
+        "false_negative": 43,
+        "false_positive": 83,
+        "true_negative": 369,
+        "true_positive": 111
+      },
+      "f1": 0.6379310344827587,
+      "false_negative_rate": 0.2792207792207792,
+      "false_positive_rate": 0.1836283185840708,
+      "macro_f1": 0.7460488505747127,
+      "n": 606,
+      "positive_prediction_rate": 0.3201320132013201,
+      "pr_auc": 0.6280542495436632,
+      "precision": 0.5721649484536082,
+      "recall": 0.7207792207792207,
+      "roc_auc": 0.8199057579588553,
+      "threshold": 0.5
+    },
+    "fusion_image_only_input_test_metrics_at_0.5": {
+      "accuracy": 0.7722772277227723,
+      "confusion_matrix": {
+        "false_negative": 71,
+        "false_positive": 67,
+        "true_negative": 385,
+        "true_positive": 83
+      },
+      "f1": 0.5460526315789473,
+      "false_negative_rate": 0.461038961038961,
+      "false_positive_rate": 0.14823008849557523,
+      "macro_f1": 0.6970351263621609,
+      "n": 606,
+      "positive_prediction_rate": 0.24752475247524752,
+      "pr_auc": 0.5468528524009026,
+      "precision": 0.5533333333333333,
+      "recall": 0.538961038961039,
+      "roc_auc": 0.7592518101367659,
+      "threshold": 0.5
+    },
+    "fusion_text_only_input_test_metrics_at_0.5": {
+      "accuracy": 0.7508250825082509,
+      "confusion_matrix": {
+        "false_negative": 66,
+        "false_positive": 85,
+        "true_negative": 367,
+        "true_positive": 88
+      },
+      "f1": 0.5382262996941896,
+      "false_negative_rate": 0.42857142857142855,
+      "false_positive_rate": 0.18805309734513273,
+      "macro_f1": 0.6838024153838179,
+      "n": 606,
+      "positive_prediction_rate": 0.2854785478547855,
+      "pr_auc": 0.5492159485392695,
+      "precision": 0.5086705202312138,
+      "recall": 0.5714285714285714,
+      "roc_auc": 0.7758016319963222,
+      "threshold": 0.5
+    }
+  },
+  "clip_model_name": "openai/clip-vit-base-patch32",
+  "clip_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+  "complementarity_analysis": {
+    "accuracy_at_threshold": {
+      "image_only": 0.7062706270627063,
+      "multimodal": 0.7920792079207921,
+      "text_only": 0.6815181518151815
+    },
+    "counts": {
+      "all_three_correct": 314,
+      "all_three_wrong": 71,
+      "image_correct_text_wrong_fusion_wrong": 25,
+      "text_correct_image_wrong_fusion_wrong": 24,
+      "text_wrong_image_wrong_fusion_correct": 14
+    },
+    "example_ids": {
+      "image_correct_text_wrong_fusion_wrong": [
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_302163456262798283/22fea1942bc9ea974960121ab35e13e9.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/dc576ad6c4eed85921769545bb0e2e66.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_44121271342927477/271207cb06780ccfaea9c75c46991e7d.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-08-29_10-46-14_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_374924737743995066/f46142b68c7fa5edc0db75b90d1f297a.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_44121271342927477/fc16742321989c7e2cc55a2573e53f62.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_361413938844108966/a9dbe54bd538e3842eee35a2faddadfe.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/salsamemers/332882352_168392739307521_5351754434781656989_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/206595704_1720543421471189_7683962139160063591_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/msr5er/345617771_644763037648455_4132149906399854353_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/237053232_1760791710779693_694889218932030558_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-11-29_10-03-50_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2020-09-16_11-11-08_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/8yerjaw/2022-04-30_10-25-40_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2020-06-12_17-58-39_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/MemesYard/51010672_334210210532683_3600988859724201984_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/af9a75f76c8d2a8e80e666c2d845081d.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_302163456262798283/6542c689ad5d6ac290119ac95f951dbf.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/salsamemers/340615561_779389716655105_7049013264407594102_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_384283780715921583/506f6ffbf0222643353f28b7eb969be8.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_115264071700638504/8b15809069711cb372f2b4ea28dc31ed.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-02-26_16-17-14_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-07-10_15-39-54_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/comiicsatk/2022-03-29_11-44-58_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_115264071700638504/4f10086fe58b25913f96b5aab43548c9.jpg"
+      ],
+      "text_correct_image_wrong_fusion_wrong": [
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-05-15_18-20-28_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_1054827543956207502/b8765b86e76b8193a850728f31df322b.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/salsamemers/340475978_1424321215054561_7926587479252356581_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/106767486_1442999949225539_5258789165587180384_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/8yerjaw/2022-04-21_10-10-47_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-04-16_20-16-42_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/357566276_256347480435734_4106079335526471884_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/8e5f952ecf9a187ed06e9fc8de32a4f3.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_115264071700638504/c55676ec43174858403c997893ef1fb8.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/39838a25517ca89438fd10ca6e141b97.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/107594105_1447984008727133_178897062618738785_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_374924737744527609/45d52a2bd175688cfc0a40538937414e.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-06-27_11-00-00_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-08-26_18-50-18_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-05-22_16-14-16_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-02-23_07-09-11_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-06-02_15-32-18_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_186758715790591597/dbb6850860cd07cd974bab69c6e54c08.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2021-10-09_14-30-18_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/102884220_3626554047371004_5468954034828022886_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-05-07_13-03-34_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_361413938844108966/ad64bd045a637ba945badbdb76099562.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2019-12-03_09-32-20_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-07-23_20-28-17_UTC.jpg"
+      ],
+      "text_wrong_image_wrong_fusion_correct": [
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2022-03-23_09-56-59_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_374924737743995066/9d653c02e4d16be5a35515821b7d0021.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_397231629646119962/7c85a94e8d7cb32ed34784ff47668461.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/salsamemers/340990866_530820245918647_3582902102615553910_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_126241595793002111/35702d750139d6d41a196a7702485fa2.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/8yerjaw/2022-09-05_19-54-40_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Facebook/images/arabic.memes.offiiciel/110301345_125434359232258_3721381756488446082_n.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_173388654391587644/f3961d8b36ebb88d940c3bfeb37c281d.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_44121271342927477/63e0fd4f83aaaca7c8074f283f21d665.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_358810295319095213/e6db5901b709ab052f35cb1e8b71f5f4.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_147915169002483733/20a0739deeb63c71819bd804bb0e6c1b.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_44121271342927477/a3cbb28d5a1ee85013d06d079040a636.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-08-06_12-25-49_UTC.jpg",
+        "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/9fb0ce29bc85b802e74e354fe2ead3ce.jpg"
+      ]
+    },
+    "n": 606,
+    "threshold": 0.5
+  },
+  "config": {
+    "clip_model_name": "openai/clip-vit-base-patch32",
+    "clip_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+    "decision_threshold": {
+      "candidates": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "selection_metric": "f1"
+    },
+    "head": {
+      "dropout": 0.2,
+      "hidden_dim": 256
+    },
+    "max_seq_length": 64,
+    "model_name": "fusion-clip-arabert",
+    "model_version": "v1",
+    "text_model_name": "aubmindlab/bert-base-arabertv2",
+    "text_model_revision": "97522efce17efa33036ac619802d5cec238dcad9",
+    "training": {
+      "batch_size": 64,
+      "early_stopping_patience": 8,
+      "epochs": 50,
+      "learning_rate": 0.001,
+      "model_selection_metric": "pr_auc",
+      "seed": 42,
+      "use_class_weighting": true,
+      "weight_decay": 0.01
+    }
+  },
+  "dataset_manifest": {
+    "attribution": "Prop2Hate-Meme dataset by QCRI (Qatar Computing Research Institute), extending the ArMeme corpus with hate-speech annotations. See https://arxiv.org/abs/2409.07246.",
+    "dataset_name": "QCRI/Prop2Hate-Meme",
+    "dataset_revision": "7315cbe87f45750b8b027c66fa662b536bce8248",
+    "distribution_shift": {
+      "absolute_difference_test_minus_train": 0.15473203876617247,
+      "authoritative_explanation_found": false,
+      "clean_train_positive_rate": 0.09948622139187295,
+      "dev_positive_rate": 0.09935897435897435,
+      "note": "No rationale for the train/dev vs. test prevalence difference was found in the official QCRI/Prop2Hate-Meme dataset card or README. Documented as an observed distribution shift, not an inferred cause.",
+      "relative_ratio_test_over_train": 2.5567641271169372,
+      "test_positive_rate": 0.25412541254125415,
+      "train_positive_rate": 0.09939337377508166
+    },
+    "duplicate_summary": {
+      "duplicate_ids": 0,
+      "duplicate_image_hashes": 0,
+      "duplicate_pairs": 0,
+      "duplicate_texts": 4
+    },
+    "expected_split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "leakage_remediation": {
+      "dev_count": 312,
+      "final_train_count": 2141,
+      "original_train_count": 2143,
+      "post_remediation_duplicate_summary": {
+        "duplicate_ids": 0,
+        "duplicate_image_hashes": 0,
+        "duplicate_pairs": 0,
+        "duplicate_texts": 2
+      },
+      "post_remediation_leakage_clean": true,
+      "removed_examples": [
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-10-03_20-05-15_UTC.jpg",
+          "text": "فاكره لما قولتيلي انا داخله اصالحكم وارجعكم لبعض"
+        },
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/325596730_3561165430866879_9207462464562099758_n.jpg",
+          "text": "لن تغرق سفينة انت قائدها"
+        }
+      ],
+      "removed_train_count": 2,
+      "rule": "Exact-text match only (no normalization, no semantic dedup): a training example is removed from the processed training split if its caption text exactly matches any dev or test caption text. Dev and test are never modified. The official raw split (data/multimodal/raw/) is never modified -- this is a processed-split-only remediation.",
+      "test_count": 606
+    },
+    "leakage_summary": {
+      "id_overlaps": {},
+      "image_hash_overlaps": {},
+      "is_clean": false,
+      "pair_overlaps": {},
+      "text_overlaps": {
+        "train<->dev": 1,
+        "train<->test": 1
+      }
+    },
+    "license": "CC-BY-NC-SA-4.0",
+    "preprocessing_version": "v2",
+    "processed_jsonl_hashes": {
+      "dev": "e4ea2b8efc5d5ed452fd216592d666ebeb0f5909f1579ff82aec56dfb6825bee",
+      "test": "0ab9950df0e978482fc2ef353d13580b97ecfe61f83871f4e74b4e104442e883",
+      "train": "90051745f894b260cdaa4b06d1d5f7dfe8b01f5bbf31777c47d76ab488b6a1ce"
+    },
+    "retrieval_date": "2026-08-09T19:34:12.212382+00:00",
+    "source_url": "https://huggingface.co/datasets/QCRI/Prop2Hate-Meme",
+    "split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "validation_summary": {
+      "arabic_text_fraction_overall": 1.0,
+      "image_validation": {
+        "corrupted": 0,
+        "missing": 0,
+        "total_checked": 3061,
+        "valid": 3061
+      },
+      "label_distribution_by_split": {
+        "dev": {
+          "hate_label": {
+            "counts": {
+              "hateful": 31,
+              "not-hateful": 281
+            },
+            "positive_rate": 0.09935897435897435,
+            "total": 312
+          }
+        },
+        "test": {
+          "hate_label": {
+            "counts": {
+              "hateful": 154,
+              "not-hateful": 452
+            },
+            "positive_rate": 0.25412541254125415,
+            "total": 606
+          }
+        },
+        "train": {
+          "hate_label": {
+            "counts": {
+              "hateful": 213,
+              "not-hateful": 1930
+            },
+            "positive_rate": 0.09939337377508166,
+            "total": 2143
+          }
+        }
+      }
+    }
+  },
+  "dataset_manifest_reference": "/Users/saitejasrivillibhutturu/Downloads/SafeLens/data/multimodal/manifests/prop2hate_meme_manifest.json",
+  "dev_metrics_at_threshold_0.5": {
+    "accuracy": 0.7051282051282052,
+    "confusion_matrix": {
+      "false_negative": 7,
+      "false_positive": 85,
+      "true_negative": 196,
+      "true_positive": 24
+    },
+    "f1": 0.34285714285714286,
+    "false_negative_rate": 0.22580645161290322,
+    "false_positive_rate": 0.302491103202847,
+    "macro_f1": 0.5763872491145219,
+    "n": 312,
+    "positive_prediction_rate": 0.34935897435897434,
+    "pr_auc": 0.40927658635084796,
+    "precision": 0.22018348623853212,
+    "recall": 0.7741935483870968,
+    "roc_auc": 0.8118470898863506,
+    "threshold": 0.5
+  },
+  "environment": {
+    "cuda_available": false,
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "git_commit": "0a4eed57c10efc9bc4e7237d622e95ae9fb8cd1a",
+    "mps_available": true,
+    "packages": {
+      "scikit-learn": "1.9.0",
+      "torch": "2.13.0",
+      "transformers": "5.14.1"
+    },
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 17.0.0 (clang-1700.6.4.2)]"
+  },
+  "error_analysis": {
+    "high_confidence_false_negatives": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-11-15_10-38-26_UTC.jpg",
+        "image_path": "images/test/090912c5772552e6.jpg",
+        "predicted_probability": 0.0441,
+        "text_excerpt": "*حد بيقولي أخبارك أيه عادي*  أنا : المنهج متراكم عليا- مفيش شغف ولا طاقه ولا فرحه- وكمان عندى برد",
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-12-22_20-13-45_UTC.jpg",
+        "image_path": "images/test/69007171b0c9412a.jpg",
+        "predicted_probability": 0.0658,
+        "text_excerpt": "*لما يكلمك يصالحك بعد ما بدأتي تكراشي ع حد احلى*  ده انت غتت",
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2019-12-15_14-34-46_UTC.jpg",
+        "image_path": "images/test/f8a07dc1af8cde0a.jpg",
+        "predicted_probability": 0.0665,
+        "text_excerpt": "لسه ناوى على الرحيل ارحل يا طارق ينعل ميتين فلنتك",
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-11-16_17-12-07_UTC.jpg",
+        "image_path": "images/test/3c7b658cdf5ea53d.jpg",
+        "predicted_probability": 0.069,
+        "text_excerpt": "واحد ظلم كل اللى يعرفهم  بوستاته :",
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-11-18_21-51-06_UTC.jpg",
+        "image_path": "images/test/8e04344f1e483c97.jpg",
+        "predicted_probability": 0.0807,
+        "text_excerpt": "لما تخطب صالونات وتصحى تاني يوم تلاقيها باعتالك مسدج 10 سطور قدايه انت السند الحقيقي : جايه معاكي ف...",
+        "true_label": 1
+      }
+    ],
+    "high_confidence_false_positives": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/people/33367555_195261964623236_2459400691479740416_n.jpg",
+        "image_path": "images/test/d9055fa61b38ac2c.jpg",
+        "predicted_probability": 0.9576,
+        "text_excerpt": "الحصول على فتاة   وجهي القبيح وإكتائبي",
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/TestosteroneFUN_/36291397_347907992401936_3388987006250909696_n.jpg",
+        "image_path": "images/test/a3d4f506c52753d9.jpg",
+        "predicted_probability": 0.9401,
+        "text_excerpt": "كيف النسوان بفكرو الرجال بشوفوهن..  كيف الرجال بشوفو النساء بلحقيقة",
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_1054827543956207502/2d0ef00ca4d8a6feda362f6db5dd8cb8.jpg",
+        "image_path": "images/test/0a3343791e9b11f2.jpg",
+        "predicted_probability": 0.9378,
+        "text_excerpt": "اضطرت شركه BMW لسحب سياراتها التى تحتوى على صوت إمرأه  فى انضمه السياره من السعوديه  وذلك لأن السائق...",
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/333239833_560909192683358_1939268161206323004_n.jpg",
+        "image_path": "images/test/91db9f290d38c84c.jpg",
+        "predicted_probability": 0.9366,
+        "text_excerpt": "POV: يما أنا مش رح أتجوز إلا بنت تونسية أو مغربية",
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/109565478_1458796407645893_467067415241172969_n.jpg",
+        "image_path": "images/test/32c42f2efa72cf63.jpg",
+        "predicted_probability": 0.9228,
+        "text_excerpt": "د. معين عبدالملك سعيد رئيس الوزراء التقيت اليوم بفخامة الرئيس المصري عبد الفتاح وسلمته رساله خطية من...",
+        "true_label": 0
+      }
+    ],
+    "threshold": 0.5,
+    "total_false_negatives": 43,
+    "total_false_positives": 83
+  },
+  "inference_benchmark": {
+    "clip_encoder": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 36.74108300765511,
+      "p95_ms": 52.86045190296135,
+      "p99_ms": 54.558157834690064,
+      "stage": "clip_encoder",
+      "throughput_examples_per_second": 26.2551487299761,
+      "warmup_iterations": 5
+    },
+    "environment": "Measured on macOS-15.5-arm64-arm-64bit, device=mps",
+    "fusion_head": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 0.045791995944455266,
+      "p95_ms": 0.047837205056566745,
+      "p99_ms": 0.053800259483978145,
+      "stage": "fusion_head",
+      "throughput_examples_per_second": 21636.105247229963,
+      "warmup_iterations": 5
+    },
+    "image_preprocessing": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 1.9686665036715567,
+      "p95_ms": 2.7236708090640604,
+      "p99_ms": 2.784459078684449,
+      "stage": "preprocessing",
+      "throughput_examples_per_second": 489.78952894324954,
+      "warmup_iterations": 5
+    },
+    "multimodal_end_to_end": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 66.42308349546511,
+      "p95_ms": 87.94547948782565,
+      "p99_ms": 93.41738914401503,
+      "stage": "multimodal_end_to_end",
+      "throughput_examples_per_second": 14.632988898336817,
+      "warmup_iterations": 5
+    },
+    "text_encoder": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 28.533041986520402,
+      "p95_ms": 43.814979055605356,
+      "p99_ms": 51.21690623986068,
+      "stage": "text_encoder",
+      "throughput_examples_per_second": 33.38346051413743,
+      "warmup_iterations": 5
+    },
+    "text_tokenization": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 0.26816649187821895,
+      "p95_ms": 0.46779374242760235,
+      "p99_ms": 0.6376464257482439,
+      "stage": "tokenization",
+      "throughput_examples_per_second": 3369.7552151355494,
+      "warmup_iterations": 5
+    }
+  },
+  "missing_modality_representation": "Train-mean embedding vector per modality, NOT a zero vector -- documented in safelens/models/multimodal/missing_modality.py. Not a learned gating mechanism.",
+  "model_name": "fusion-clip-arabert",
+  "model_version": "v1",
+  "positive_rate": {
+    "dev": 0.09935897588729858,
+    "test": 0.2541254162788391,
+    "train": 0.09948622435331345
+  },
+  "selected_threshold_secondary": 0.8,
+  "split_sizes": {
+    "dev": 312,
+    "test": 606,
+    "train": 2141
+  },
+  "standalone_vs_fusion_ablation_note": "Standalone CLIP/AraBERT (Phase 5A/5B, own trained heads) are DIFFERENT models from Fusion(image-only-input)/Fusion(text-only-input) (this fusion head, one input replaced by a train-mean placeholder). Both are reported -- see complementarity_analysis and required_comparison in docs/evaluation.md.",
+  "test_metrics_at_selected_threshold_secondary": {
+    "accuracy": 0.8036303630363036,
+    "confusion_matrix": {
+      "false_negative": 94,
+      "false_positive": 25,
+      "true_negative": 427,
+      "true_positive": 60
+    },
+    "f1": 0.502092050209205,
+    "false_negative_rate": 0.6103896103896104,
+    "false_positive_rate": 0.05530973451327434,
+    "macro_f1": 0.6898949459679118,
+    "n": 606,
+    "positive_prediction_rate": 0.14026402640264027,
+    "pr_auc": 0.6280542495436632,
+    "precision": 0.7058823529411765,
+    "recall": 0.38961038961038963,
+    "roc_auc": 0.8199057579588553,
+    "threshold": 0.8
+  },
+  "test_metrics_at_threshold_0.5_PRIMARY": {
+    "accuracy": 0.7920792079207921,
+    "confusion_matrix": {
+      "false_negative": 43,
+      "false_positive": 83,
+      "true_negative": 369,
+      "true_positive": 111
+    },
+    "f1": 0.6379310344827587,
+    "false_negative_rate": 0.2792207792207792,
+    "false_positive_rate": 0.1836283185840708,
+    "macro_f1": 0.7460488505747127,
+    "n": 606,
+    "positive_prediction_rate": 0.3201320132013201,
+    "pr_auc": 0.6280542495436632,
+    "precision": 0.5721649484536082,
+    "recall": 0.7207792207792207,
+    "roc_auc": 0.8199057579588553,
+    "threshold": 0.5
+  },
+  "text_model_name": "aubmindlab/bert-base-arabertv2",
+  "text_model_revision": "97522efce17efa33036ac619802d5cec238dcad9",
+  "threshold_sweep_dev_only_secondary": [
+    {
+      "accuracy": 0.23397435897435898,
+      "confusion_matrix": {
+        "false_negative": 0,
+        "false_positive": 239,
+        "true_negative": 42,
+        "true_positive": 31
+      },
+      "f1": 0.2059800664451827,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 0.8505338078291815,
+      "macro_f1": 0.23302099297491335,
+      "n": 312,
+      "positive_prediction_rate": 0.8653846153846154,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.11481481481481481,
+      "recall": 1.0,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.1
+    },
+    {
+      "accuracy": 0.3685897435897436,
+      "confusion_matrix": {
+        "false_negative": 3,
+        "false_positive": 194,
+        "true_negative": 87,
+        "true_positive": 28
+      },
+      "f1": 0.22134387351778656,
+      "false_negative_rate": 0.0967741935483871,
+      "false_positive_rate": 0.6903914590747331,
+      "macro_f1": 0.34517328446778817,
+      "n": 312,
+      "positive_prediction_rate": 0.7115384615384616,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.12612612612612611,
+      "recall": 0.9032258064516129,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.2
+    },
+    {
+      "accuracy": 0.5096153846153846,
+      "confusion_matrix": {
+        "false_negative": 4,
+        "false_positive": 149,
+        "true_negative": 132,
+        "true_positive": 27
+      },
+      "f1": 0.2608695652173913,
+      "false_negative_rate": 0.12903225806451613,
+      "false_positive_rate": 0.5302491103202847,
+      "macro_f1": 0.44698154519862365,
+      "n": 312,
+      "positive_prediction_rate": 0.5641025641025641,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.1534090909090909,
+      "recall": 0.8709677419354839,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.3
+    },
+    {
+      "accuracy": 0.6153846153846154,
+      "confusion_matrix": {
+        "false_negative": 4,
+        "false_positive": 116,
+        "true_negative": 165,
+        "true_positive": 27
+      },
+      "f1": 0.3103448275862069,
+      "false_negative_rate": 0.12903225806451613,
+      "false_positive_rate": 0.4128113879003559,
+      "macro_f1": 0.5218390804597701,
+      "n": 312,
+      "positive_prediction_rate": 0.4583333333333333,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.1888111888111888,
+      "recall": 0.8709677419354839,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.4
+    },
+    {
+      "accuracy": 0.7051282051282052,
+      "confusion_matrix": {
+        "false_negative": 7,
+        "false_positive": 85,
+        "true_negative": 196,
+        "true_positive": 24
+      },
+      "f1": 0.34285714285714286,
+      "false_negative_rate": 0.22580645161290322,
+      "false_positive_rate": 0.302491103202847,
+      "macro_f1": 0.5763872491145219,
+      "n": 312,
+      "positive_prediction_rate": 0.34935897435897434,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.22018348623853212,
+      "recall": 0.7741935483870968,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.5
+    },
+    {
+      "accuracy": 0.7852564102564102,
+      "confusion_matrix": {
+        "false_negative": 9,
+        "false_positive": 58,
+        "true_negative": 223,
+        "true_positive": 22
+      },
+      "f1": 0.3963963963963964,
+      "false_negative_rate": 0.2903225806451613,
+      "false_positive_rate": 0.20640569395017794,
+      "macro_f1": 0.6328960539486855,
+      "n": 312,
+      "positive_prediction_rate": 0.2564102564102564,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.275,
+      "recall": 0.7096774193548387,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.6
+    },
+    {
+      "accuracy": 0.8301282051282052,
+      "confusion_matrix": {
+        "false_negative": 14,
+        "false_positive": 39,
+        "true_negative": 242,
+        "true_positive": 17
+      },
+      "f1": 0.39080459770114945,
+      "false_negative_rate": 0.45161290322580644,
+      "false_positive_rate": 0.1387900355871886,
+      "macro_f1": 0.646054067938098,
+      "n": 312,
+      "positive_prediction_rate": 0.1794871794871795,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.30357142857142855,
+      "recall": 0.5483870967741935,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.7
+    },
+    {
+      "accuracy": 0.875,
+      "confusion_matrix": {
+        "false_negative": 15,
+        "false_positive": 24,
+        "true_negative": 257,
+        "true_positive": 16
+      },
+      "f1": 0.4507042253521127,
+      "false_negative_rate": 0.4838709677419355,
+      "false_positive_rate": 0.08540925266903915,
+      "macro_f1": 0.6900899065277742,
+      "n": 312,
+      "positive_prediction_rate": 0.1282051282051282,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.4,
+      "recall": 0.5161290322580645,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.8
+    },
+    {
+      "accuracy": 0.8942307692307693,
+      "confusion_matrix": {
+        "false_negative": 24,
+        "false_positive": 9,
+        "true_negative": 272,
+        "true_positive": 7
+      },
+      "f1": 0.2978723404255319,
+      "false_negative_rate": 0.7741935483870968,
+      "false_positive_rate": 0.03202846975088968,
+      "macro_f1": 0.6203399830377226,
+      "n": 312,
+      "positive_prediction_rate": 0.05128205128205128,
+      "pr_auc": 0.40927658635084796,
+      "precision": 0.4375,
+      "recall": 0.22580645161290322,
+      "roc_auc": 0.8118470898863506,
+      "threshold": 0.9
+    }
+  ],
+  "training_environment": {
+    "best_epoch": 3,
+    "class_weights": [
+      0.5552386045455933,
+      5.025821685791016
+    ],
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "embedding_extraction_seconds": 207.05629345800844,
+    "epochs_run": 12,
+    "fused_embed_dim": 1280,
+    "head_training_seconds": 1.1687888749875128,
+    "os": "macOS-15.5-arm64-arm-64bit"
+  }
+}

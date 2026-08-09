@@ -1,0 +1,50 @@
+{
+  "method": "Manual visual inspection of the actual pixel content of the same 5 high-confidence false positives and 5 high-confidence false negatives already identified in experiment.json (threshold=0.6, Phase 5A frozen-CLIP image-only model). Text/caption content was NOT read or used to interpret these images -- only visual/structural image characteristics were assessed, to avoid contaminating an image-only error analysis with text signal the model never had access to.",
+  "reviewer": "Claude (manual image viewing), 2026-08-09",
+  "sample_size": {
+    "false_positives_reviewed": 5,
+    "false_negatives_reviewed": 5
+  },
+  "false_positives": {
+    "images_reviewed": [
+      "images/test/e7f985fa1691de83.jpg",
+      "images/test/4716fd5c685e9fd0.jpg",
+      "images/test/32c42f2efa72cf63.jpg",
+      "images/test/3a125531e377aaec.jpg",
+      "images/test/10fe98cbffdee9e8.jpg"
+    ],
+    "visual_observations": [
+      "5/5 have a large, dense block of embedded text (white or yellow text box) covering a substantial fraction of the image area -- a heavier text-overlay style than typical casual memes.",
+      "4/5 depict formally-dressed men (suits, official attire) in what appear to be political/press-conference/official-meeting settings -- recurring visual subject matter (people, setting, framing), not just caption topic.",
+      "3/5 contain a small circular/rounded-square logo-sticker graphic in a corner of the image (a recurring watermark-style visual element), separate from the main photo content.",
+      "1/5 (the 'Breaking Bad' meme) is a 3-panel stacked movie-still template with large centered text bars between panels -- a distinct layout from the other 4.",
+      "Image quality is uniformly sharp/high-resolution across all 5 -- no blur or compression artifacts observed."
+    ],
+    "metadata_observations": [
+      "3/5 file paths reference Facebook page accounts 'salsamemers' and 'sanat.meme_' (sanat.meme_ appears twice) -- this is filename/path metadata, not pixel content, and is explicitly NOT claimed as a visual finding.",
+      "This metadata pattern was already reported in experiment.json's error_analysis and remains labeled as metadata evidence only."
+    ],
+    "assessment": "A real visual pattern exists and is distinct from the metadata pattern: heavy text-overlay density + formal/official photo subject matter + recurring small logo-sticker watermarks. Plausible (not confirmed) hypothesis: CLIP's frozen visual features associate this 'official photo + dense text overlay + branded watermark' visual template with the minority hateful/political-meme class in this dataset, independent of what the text actually says -- consistent with propaganda/political meme templates in this corpus often carrying this visual style. This is a hypothesis about a real, observed correlation, not a proven causal mechanism."
+  },
+  "false_negatives": {
+    "images_reviewed": [
+      "images/test/3c7b658cdf5ea53d.jpg",
+      "images/test/69007171b0c9412a.jpg",
+      "images/test/e06facf926bd0624.jpg",
+      "images/test/05bd4369508f86e8.jpg",
+      "images/test/f8a07dc1af8cde0a.jpg"
+    ],
+    "visual_observations": [
+      "4/5 are single-panel screenshots from classic Egyptian film/TV footage (visibly older film stock -- muted colors, lower resolution, visible grain in 2/5) reused as a reaction-meme template, with a plain white caption bar at the top rather than text overlaid directly on the photo.",
+      "1/5 (red car with a man and prayer beads) is a clear, modern, high-resolution personal/amateur photo, not a film screenshot or template meme -- visually the outlier in this set.",
+      "2/5 include small decorative emoji glyphs embedded next to the caption text (not part of the photo itself, but part of the overall image composition CLIP would see).",
+      "0/5 contain the logo-sticker watermark pattern seen in the false positives.",
+      "No violent, graphic, or overtly hateful symbolism is visible in any of the 5 images -- consistent with this being a text-driven or context-driven hatefulness judgment that the image alone would plausibly not signal, though this cannot be confirmed without knowing the annotators' actual reasoning."
+    ],
+    "metadata_observations": [
+      "File paths reference 'ex.officiall' (Instagram) and 'pinterest_images_part2' -- no repeated single-account clustering as clean as the false-positive side; not flagged as a strong metadata pattern."
+    ],
+    "assessment": "A real, distinct visual pattern from the false positives: classic film-still meme templates and a plain caption-bar layout (vs. dense overlay + watermark stickers), lower average image novelty/resolution, and no political-photo subject matter. Plausible (not confirmed) hypothesis: this visual style is common across both hateful and non-hateful memes in the dataset, so CLIP's visual features carry comparatively little discriminative signal for these specific examples -- the hatefulness here may depend on textual meaning (wording, sarcasm, implicit reference) that an image-only model cannot access by construction, not a defect in the visual features themselves."
+  },
+  "overall_conclusion": "A reliable, reproducible visual pattern DOES exist and is reported here, separated cleanly from the metadata pattern already known: false positives skew toward dense-text-overlay + official-photo-subject + watermark-sticker layouts; false negatives skew toward plain-caption-bar film-still templates with no watermark stickers. Both are structural/layout observations about the images themselves, not inferred from filenames or captions. Neither observation proves a causal mechanism -- they are hypotheses consistent with the evidence, stated as such."
+}

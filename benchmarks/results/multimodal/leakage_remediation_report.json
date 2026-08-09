@@ -1,0 +1,44 @@
+{
+  "distribution_shift": {
+    "absolute_difference_test_minus_train": 0.15473203876617247,
+    "authoritative_explanation_found": false,
+    "clean_train_positive_rate": 0.09948622139187295,
+    "dev_positive_rate": 0.09935897435897435,
+    "note": "No rationale for the train/dev vs. test prevalence difference was found in the official QCRI/Prop2Hate-Meme dataset card or README. Documented as an observed distribution shift, not an inferred cause.",
+    "relative_ratio_test_over_train": 2.5567641271169372,
+    "test_positive_rate": 0.25412541254125415,
+    "train_positive_rate": 0.09939337377508166
+  },
+  "post_remediation_leakage": {
+    "id_overlaps": {},
+    "image_hash_overlaps": {},
+    "is_clean": true,
+    "pair_overlaps": {},
+    "text_overlaps": {}
+  },
+  "remediation": {
+    "dev_count": 312,
+    "final_train_count": 2141,
+    "original_train_count": 2143,
+    "post_remediation_duplicate_summary": {
+      "duplicate_ids": 0,
+      "duplicate_image_hashes": 0,
+      "duplicate_pairs": 0,
+      "duplicate_texts": 2
+    },
+    "post_remediation_leakage_clean": true,
+    "removed_examples": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-10-03_20-05-15_UTC.jpg",
+        "text": "فاكره لما قولتيلي انا داخله اصالحكم وارجعكم لبعض"
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/325596730_3561165430866879_9207462464562099758_n.jpg",
+        "text": "لن تغرق سفينة انت قائدها"
+      }
+    ],
+    "removed_train_count": 2,
+    "rule": "Exact-text match only (no normalization, no semantic dedup): a training example is removed from the processed training split if its caption text exactly matches any dev or test caption text. Dev and test are never modified. The official raw split (data/multimodal/raw/) is never modified -- this is a processed-split-only remediation.",
+    "test_count": 606
+  }
+}

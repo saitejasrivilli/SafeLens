@@ -1,0 +1,553 @@
+{
+  "clip_model_name": "openai/clip-vit-base-patch32",
+  "clip_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+  "config": {
+    "clip_model_name": "openai/clip-vit-base-patch32",
+    "clip_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+    "decision_threshold": {
+      "candidates": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "selection_metric": "f1"
+    },
+    "head": {
+      "dropout": 0.2,
+      "hidden_dim": 256
+    },
+    "model_name": "image-only-clip-vit-b32",
+    "model_version": "v1",
+    "training": {
+      "batch_size": 64,
+      "early_stopping_patience": 8,
+      "epochs": 50,
+      "learning_rate": 0.001,
+      "model_selection_metric": "pr_auc",
+      "seed": 42,
+      "use_class_weighting": true,
+      "weight_decay": 0.01
+    }
+  },
+  "dataset_manifest": {
+    "attribution": "Prop2Hate-Meme dataset by QCRI (Qatar Computing Research Institute), extending the ArMeme corpus with hate-speech annotations. See https://arxiv.org/abs/2409.07246.",
+    "dataset_name": "QCRI/Prop2Hate-Meme",
+    "dataset_revision": "7315cbe87f45750b8b027c66fa662b536bce8248",
+    "distribution_shift": {
+      "absolute_difference_test_minus_train": 0.15473203876617247,
+      "authoritative_explanation_found": false,
+      "clean_train_positive_rate": 0.09948622139187295,
+      "dev_positive_rate": 0.09935897435897435,
+      "note": "No rationale for the train/dev vs. test prevalence difference was found in the official QCRI/Prop2Hate-Meme dataset card or README. Documented as an observed distribution shift, not an inferred cause.",
+      "relative_ratio_test_over_train": 2.5567641271169372,
+      "test_positive_rate": 0.25412541254125415,
+      "train_positive_rate": 0.09939337377508166
+    },
+    "duplicate_summary": {
+      "duplicate_ids": 0,
+      "duplicate_image_hashes": 0,
+      "duplicate_pairs": 0,
+      "duplicate_texts": 4
+    },
+    "expected_split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "leakage_remediation": {
+      "dev_count": 312,
+      "final_train_count": 2141,
+      "original_train_count": 2143,
+      "post_remediation_duplicate_summary": {
+        "duplicate_ids": 0,
+        "duplicate_image_hashes": 0,
+        "duplicate_pairs": 0,
+        "duplicate_texts": 2
+      },
+      "post_remediation_leakage_clean": true,
+      "removed_examples": [
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-10-03_20-05-15_UTC.jpg",
+          "text": "\u0641\u0627\u0643\u0631\u0647 \u0644\u0645\u0627 \u0642\u0648\u0644\u062a\u064a\u0644\u064a \u0627\u0646\u0627 \u062f\u0627\u062e\u0644\u0647 \u0627\u0635\u0627\u0644\u062d\u0643\u0645 \u0648\u0627\u0631\u062c\u0639\u0643\u0645 \u0644\u0628\u0639\u0636"
+        },
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/325596730_3561165430866879_9207462464562099758_n.jpg",
+          "text": "\u0644\u0646 \u062a\u063a\u0631\u0642 \u0633\u0641\u064a\u0646\u0629 \u0627\u0646\u062a \u0642\u0627\u0626\u062f\u0647\u0627"
+        }
+      ],
+      "removed_train_count": 2,
+      "rule": "Exact-text match only (no normalization, no semantic dedup): a training example is removed from the processed training split if its caption text exactly matches any dev or test caption text. Dev and test are never modified. The official raw split (data/multimodal/raw/) is never modified -- this is a processed-split-only remediation.",
+      "test_count": 606
+    },
+    "leakage_summary": {
+      "id_overlaps": {},
+      "image_hash_overlaps": {},
+      "is_clean": false,
+      "pair_overlaps": {},
+      "text_overlaps": {
+        "train<->dev": 1,
+        "train<->test": 1
+      }
+    },
+    "license": "CC-BY-NC-SA-4.0",
+    "preprocessing_version": "v2",
+    "processed_jsonl_hashes": {
+      "dev": "e4ea2b8efc5d5ed452fd216592d666ebeb0f5909f1579ff82aec56dfb6825bee",
+      "test": "0ab9950df0e978482fc2ef353d13580b97ecfe61f83871f4e74b4e104442e883",
+      "train": "90051745f894b260cdaa4b06d1d5f7dfe8b01f5bbf31777c47d76ab488b6a1ce"
+    },
+    "retrieval_date": "2026-08-09T19:34:12.212382+00:00",
+    "source_url": "https://huggingface.co/datasets/QCRI/Prop2Hate-Meme",
+    "split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "validation_summary": {
+      "arabic_text_fraction_overall": 1.0,
+      "image_validation": {
+        "corrupted": 0,
+        "missing": 0,
+        "total_checked": 3061,
+        "valid": 3061
+      },
+      "label_distribution_by_split": {
+        "dev": {
+          "hate_label": {
+            "counts": {
+              "hateful": 31,
+              "not-hateful": 281
+            },
+            "positive_rate": 0.09935897435897435,
+            "total": 312
+          }
+        },
+        "test": {
+          "hate_label": {
+            "counts": {
+              "hateful": 154,
+              "not-hateful": 452
+            },
+            "positive_rate": 0.25412541254125415,
+            "total": 606
+          }
+        },
+        "train": {
+          "hate_label": {
+            "counts": {
+              "hateful": 213,
+              "not-hateful": 1930
+            },
+            "positive_rate": 0.09939337377508166,
+            "total": 2143
+          }
+        }
+      }
+    }
+  },
+  "dataset_manifest_reference": "/Users/saitejasrivillibhutturu/Downloads/SafeLens/data/multimodal/manifests/prop2hate_meme_manifest.json",
+  "dev_metrics_at_threshold_0.5": {
+    "accuracy": 0.6506410256410257,
+    "confusion_matrix": {
+      "false_negative": 9,
+      "false_positive": 100,
+      "true_negative": 181,
+      "true_positive": 22
+    },
+    "f1": 0.2875816993464052,
+    "false_negative_rate": 0.2903225806451613,
+    "false_positive_rate": 0.35587188612099646,
+    "macro_f1": 0.5280795970192749,
+    "n": 312,
+    "positive_prediction_rate": 0.391025641025641,
+    "pr_auc": 0.28200958878557014,
+    "precision": 0.18032786885245902,
+    "recall": 0.7096774193548387,
+    "roc_auc": 0.7585811043508207,
+    "threshold": 0.5
+  },
+  "distribution_shift_note": "test positive rate differs substantially from train/dev (measured, not explained by official docs) -- see docs/multimodal_design.md sec 10b. Threshold selected on dev only; test evaluated once, not used for selection.",
+  "environment": {
+    "cuda_available": false,
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "git_commit": "0a4eed57c10efc9bc4e7237d622e95ae9fb8cd1a",
+    "mps_available": true,
+    "packages": {
+      "scikit-learn": "1.9.0",
+      "torch": "2.13.0",
+      "transformers": "5.14.1"
+    },
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 17.0.0 (clang-1700.6.4.2)]"
+  },
+  "error_analysis": {
+    "high_confidence_false_negatives": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2021-11-16_17-12-07_UTC.jpg",
+        "image_path": "images/test/3c7b658cdf5ea53d.jpg",
+        "predicted_probability": 0.2567,
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2020-12-22_20-13-45_UTC.jpg",
+        "image_path": "images/test/69007171b0c9412a.jpg",
+        "predicted_probability": 0.2711,
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_302163456262798283/f3a3c7a359616cb153fff2bd0e2915de.jpg",
+        "image_path": "images/test/e06facf926bd0624.jpg",
+        "predicted_probability": 0.2962,
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/8e5f952ecf9a187ed06e9fc8de32a4f3.jpg",
+        "image_path": "images/test/05bd4369508f86e8.jpg",
+        "predicted_probability": 0.305,
+        "true_label": 1
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2019-12-15_14-34-46_UTC.jpg",
+        "image_path": "images/test/f8a07dc1af8cde0a.jpg",
+        "predicted_probability": 0.306,
+        "true_label": 1
+      }
+    ],
+    "high_confidence_false_positives": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_302163456262798283/e5043148637645e7f9509aaffbcf3b82.jpg",
+        "image_path": "images/test/e7f985fa1691de83.jpg",
+        "predicted_probability": 0.788,
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/salsamemers/340475978_1424321215054561_7926587479252356581_n.jpg",
+        "image_path": "images/test/4716fd5c685e9fd0.jpg",
+        "predicted_probability": 0.7783,
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/109565478_1458796407645893_467067415241172969_n.jpg",
+        "image_path": "images/test/32c42f2efa72cf63.jpg",
+        "predicted_probability": 0.7782,
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_899031144344763392/9ca0ff6c52cb3ffb3af9648651f36736.jpg",
+        "image_path": "images/test/3a125531e377aaec.jpg",
+        "predicted_probability": 0.7754,
+        "true_label": 0
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/113680547_1468060256719508_5399961680056556233_n.jpg",
+        "image_path": "images/test/10fe98cbffdee9e8.jpg",
+        "predicted_probability": 0.771,
+        "true_label": 0
+      }
+    ],
+    "threshold": 0.6,
+    "total_false_negatives": 82,
+    "total_false_positives": 45
+  },
+  "inference_benchmark": {
+    "classification_head": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 0.03231249866075814,
+      "p95_ms": 0.03317950031487271,
+      "p99_ms": 0.033398084924556315,
+      "stage": "classification_head",
+      "throughput_examples_per_second": 30835.60990114922,
+      "warmup_iterations": 5
+    },
+    "clip_encoder": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 22.926354009541683,
+      "p95_ms": 30.080906240618784,
+      "p99_ms": 67.01566141302455,
+      "stage": "clip_encoder",
+      "throughput_examples_per_second": 40.23797673127677,
+      "warmup_iterations": 5
+    },
+    "end_to_end": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 28.29643750737887,
+      "p95_ms": 34.11402080091648,
+      "p99_ms": 38.37725133082131,
+      "stage": "end_to_end",
+      "throughput_examples_per_second": 34.82594823713872,
+      "warmup_iterations": 5
+    },
+    "environment": "Measured on macOS-15.5-arm64-arm-64bit, device=mps",
+    "preprocessing": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 2.0364999945741147,
+      "p95_ms": 2.8198956468258984,
+      "p99_ms": 3.005606088554486,
+      "stage": "preprocessing",
+      "throughput_examples_per_second": 470.5659188472556,
+      "warmup_iterations": 5
+    }
+  },
+  "model_name": "image-only-clip-vit-b32",
+  "model_version": "v1",
+  "positive_rate": {
+    "dev": 0.09935897588729858,
+    "test": 0.2541254162788391,
+    "train": 0.09948622435331345
+  },
+  "selected_threshold": 0.6,
+  "split_sizes": {
+    "dev": 312,
+    "test": 606,
+    "train": 2141
+  },
+  "test_metrics_at_selected_threshold": {
+    "accuracy": 0.7904290429042904,
+    "confusion_matrix": {
+      "false_negative": 82,
+      "false_positive": 45,
+      "true_negative": 407,
+      "true_positive": 72
+    },
+    "f1": 0.5313653136531366,
+    "false_negative_rate": 0.5324675324675324,
+    "false_positive_rate": 0.09955752212389381,
+    "macro_f1": 0.6982012540635503,
+    "n": 606,
+    "positive_prediction_rate": 0.19306930693069307,
+    "pr_auc": 0.5646532948011914,
+    "precision": 0.6153846153846154,
+    "recall": 0.4675324675324675,
+    "roc_auc": 0.7581743477761177,
+    "threshold": 0.6
+  },
+  "test_metrics_at_threshold_0.5": {
+    "accuracy": 0.7062706270627063,
+    "confusion_matrix": {
+      "false_negative": 46,
+      "false_positive": 132,
+      "true_negative": 320,
+      "true_positive": 108
+    },
+    "f1": 0.5482233502538071,
+    "false_negative_rate": 0.2987012987012987,
+    "false_positive_rate": 0.2920353982300885,
+    "macro_f1": 0.6653097191366835,
+    "n": 606,
+    "positive_prediction_rate": 0.39603960396039606,
+    "pr_auc": 0.5646532948011914,
+    "precision": 0.45,
+    "recall": 0.7012987012987013,
+    "roc_auc": 0.7581743477761177,
+    "threshold": 0.5
+  },
+  "threshold_sweep_dev_only": [
+    {
+      "accuracy": 0.09935897435897435,
+      "confusion_matrix": {
+        "false_negative": 0,
+        "false_positive": 281,
+        "true_negative": 0,
+        "true_positive": 31
+      },
+      "f1": 0.18075801749271136,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 1.0,
+      "macro_f1": 0.09037900874635568,
+      "n": 312,
+      "positive_prediction_rate": 1.0,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.09935897435897435,
+      "recall": 1.0,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.1
+    },
+    {
+      "accuracy": 0.09935897435897435,
+      "confusion_matrix": {
+        "false_negative": 0,
+        "false_positive": 281,
+        "true_negative": 0,
+        "true_positive": 31
+      },
+      "f1": 0.18075801749271136,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 1.0,
+      "macro_f1": 0.09037900874635568,
+      "n": 312,
+      "positive_prediction_rate": 1.0,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.09935897435897435,
+      "recall": 1.0,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.2
+    },
+    {
+      "accuracy": 0.14423076923076922,
+      "confusion_matrix": {
+        "false_negative": 0,
+        "false_positive": 267,
+        "true_negative": 14,
+        "true_positive": 31
+      },
+      "f1": 0.1884498480243161,
+      "false_negative_rate": 0.0,
+      "false_positive_rate": 0.9501779359430605,
+      "macro_f1": 0.14168255113080214,
+      "n": 312,
+      "positive_prediction_rate": 0.9551282051282052,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.1040268456375839,
+      "recall": 1.0,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.3
+    },
+    {
+      "accuracy": 0.3974358974358974,
+      "confusion_matrix": {
+        "false_negative": 2,
+        "false_positive": 186,
+        "true_negative": 95,
+        "true_positive": 29
+      },
+      "f1": 0.23577235772357724,
+      "false_negative_rate": 0.06451612903225806,
+      "false_positive_rate": 0.6619217081850534,
+      "macro_f1": 0.36920893018453993,
+      "n": 312,
+      "positive_prediction_rate": 0.6891025641025641,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.13488372093023257,
+      "recall": 0.9354838709677419,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.4
+    },
+    {
+      "accuracy": 0.6506410256410257,
+      "confusion_matrix": {
+        "false_negative": 9,
+        "false_positive": 100,
+        "true_negative": 181,
+        "true_positive": 22
+      },
+      "f1": 0.2875816993464052,
+      "false_negative_rate": 0.2903225806451613,
+      "false_positive_rate": 0.35587188612099646,
+      "macro_f1": 0.5280795970192749,
+      "n": 312,
+      "positive_prediction_rate": 0.391025641025641,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.18032786885245902,
+      "recall": 0.7096774193548387,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.5
+    },
+    {
+      "accuracy": 0.8141025641025641,
+      "confusion_matrix": {
+        "false_negative": 15,
+        "false_positive": 43,
+        "true_negative": 238,
+        "true_positive": 16
+      },
+      "f1": 0.35555555555555557,
+      "false_negative_rate": 0.4838709677419355,
+      "false_positive_rate": 0.15302491103202848,
+      "macro_f1": 0.6234706616729089,
+      "n": 312,
+      "positive_prediction_rate": 0.1891025641025641,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.2711864406779661,
+      "recall": 0.5161290322580645,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.6
+    },
+    {
+      "accuracy": 0.8685897435897436,
+      "confusion_matrix": {
+        "false_negative": 22,
+        "false_positive": 19,
+        "true_negative": 262,
+        "true_positive": 9
+      },
+      "f1": 0.3050847457627119,
+      "false_negative_rate": 0.7096774193548387,
+      "false_positive_rate": 0.06761565836298933,
+      "macro_f1": 0.616259187040648,
+      "n": 312,
+      "positive_prediction_rate": 0.08974358974358974,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.32142857142857145,
+      "recall": 0.2903225806451613,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.7
+    },
+    {
+      "accuracy": 0.907051282051282,
+      "confusion_matrix": {
+        "false_negative": 28,
+        "false_positive": 1,
+        "true_negative": 280,
+        "true_positive": 3
+      },
+      "f1": 0.17142857142857143,
+      "false_negative_rate": 0.9032258064516129,
+      "false_positive_rate": 0.0035587188612099642,
+      "macro_f1": 0.5610962891098714,
+      "n": 312,
+      "positive_prediction_rate": 0.01282051282051282,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.75,
+      "recall": 0.0967741935483871,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.8
+    },
+    {
+      "accuracy": 0.9006410256410257,
+      "confusion_matrix": {
+        "false_negative": 31,
+        "false_positive": 0,
+        "true_negative": 281,
+        "true_positive": 0
+      },
+      "f1": 0.0,
+      "false_negative_rate": 1.0,
+      "false_positive_rate": 0.0,
+      "macro_f1": 0.47386172006745364,
+      "n": 312,
+      "positive_prediction_rate": 0.0,
+      "pr_auc": 0.28200958878557014,
+      "precision": 0.0,
+      "recall": 0.0,
+      "roc_auc": 0.7585811043508207,
+      "threshold": 0.9
+    }
+  ],
+  "training_environment": {
+    "best_epoch": 0,
+    "class_weights": [
+      0.5552386045455933,
+      5.025821685791016
+    ],
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "embedding_extraction_seconds": 87.12865066700033,
+    "epochs_run": 9,
+    "head_training_seconds": 0.6606624159903731,
+    "os": "macOS-15.5-arm64-arm-64bit"
+  }
+}

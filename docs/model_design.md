@@ -193,3 +193,149 @@ justifies the added serving complexity for a *production* system is a policy/cos
 - Local model weight artifacts (`models/text/deberta/v1/`) were not retrieved from the Colab
   run at the time of writing — only the benchmark report (`experiment.json`, plots) was
   downloaded. The model is not currently re-loadable locally.
+
+## 19. Phase 5 — text encoder is a separate, not-yet-implemented decision
+
+Phase 5 (`docs/multimodal_design.md`) uses `QCRI/Prop2Hate-Meme`, whose text
+is 100% Arabic (measured). `microsoft/deberta-v3-small` (Phase 4) is
+English-only and cannot be reused for Phase 5's text branch. **No encoder
+has been selected or implemented yet** — this section only proposes
+candidates for review before Phase 5B is built.
+
+| Candidate | Type | Params (approx.) | Why it's a candidate | Tradeoff |
+|---|---|---|---|---|
+| `microsoft/mdeberta-v3-base` | Multilingual DeBERTa-v3 (100+ languages incl. Arabic) | ~86M (base) | Same architecture family as Phase 4 — methodology stays consistent (disentangled attention, same tokenizer style), easiest to compare against Phase 4's approach conceptually | Multilingual generalist, not Arabic-specialized — may underperform a dedicated Arabic model on dialectal/informal meme text |
+| `aubmindlab/bert-base-arabertv2` (AraBERT) | Arabic-specific BERT | ~136M | Purpose-built for Arabic, strong track record on Arabic NLP benchmarks, pretrained on a large Arabic corpus | Different architecture family from DeBERTa — less direct methodological continuity with Phase 4; primarily Modern Standard Arabic-oriented, memes often contain informal/dialectal Arabic |
+| `CAMeL-Lab/bert-base-arabic-camelbert-mix` (CAMeLBERT-Mix) | Arabic-specific BERT, mixed-register pretraining (MSA + dialectal + classical) | ~108M | Explicitly trained on a *mix* of registers, plausibly the best fit for informal/dialectal meme captions specifically | Less widely benchmarked than AraBERT in some tasks; still a BERT-family model, same continuity tradeoff as AraBERT |
+
+**No recommendation is finalized.** `mdeberta-v3-base` has the strongest
+methodological continuity with Phase 4's approach; the two Arabic-specific
+models (AraBERT, CAMeLBERT-Mix) have the strongest task-fit argument given
+the dataset is 100% Arabic and meme text is informal/dialectal. This should
+be resolved by an actual measured comparison (frozen-encoder embedding
+quality or a small probe) before Phase 5B is built, not by picking one
+arbitrarily — availability/licensing of each on the Hugging Face Hub also
+needs to be re-verified at implementation time, not assumed from this list.
+
+## 20. Phase 5A — image-only baseline
+
+**Why an image-only baseline first:** per `CLAUDE.md`'s own build order
+(image-only → text-only → multimodal), establishing what the image alone
+can do is a prerequisite for later claiming multimodal information adds
+value — without it, any multimodal result would have no unimodal floor to
+compare against.
+
+**Architecture:** frozen `openai/clip-vit-base-patch32` (revision
+`3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268`, 151.3M total params, 87.5M in
+the vision tower) → 512-dim projected image embedding (via
+`model.vision_model(...).pooler_output` → `model.visual_projection(...)`,
+used instead of `get_image_features()` because the installed transformers
+version's `get_image_features()` was verified to return an unprojected
+pooled output, not the projected embedding — a real, checked discrepancy,
+not an assumption) → classification head: `Linear(512→256) → ReLU →
+Dropout(0.2) → Linear(256→2)`.
+
+**Frozen-encoder choice:** the entire CLIP model's parameters have
+`requires_grad=False` (verified by test); only the ~132K-parameter head is
+trained. This follows `CLAUDE.md` §14/§17's "start with frozen embeddings,
+only fine-tune if experiments justify it" — no fine-tuning was attempted or
+needed to get a working baseline.
+
+**Class weighting:** computed from the leakage-clean **train** split only
+(2,141 examples, 213 positive) — weights `[0.555, 5.026]`, i.e. the
+hate-labeled class is weighted ~9x higher in the loss, roughly matching its
+~1:9 rarity in train. Dev/test distributions were never used to compute
+these weights.
+
+**Training behavior (real, measured, somewhat surprising):** the best
+validation (dev) PR-AUC was reached at **epoch 0** (the very first epoch)
+and never improved in the following 8 epochs (early-stopping patience
+exhausted at epoch 9). This is reported as-is, not smoothed over — plausible
+explanations include the head being simple enough to reach a good solution
+almost immediately given how separable CLIP's frozen embeddings already
+make the classes, and/or dev's PR-AUC estimate being too noisy (31 positive
+examples) to reliably detect further improvement. No single explanation is
+asserted as fact.
+
+**Results, error analysis, latency:** see `docs/evaluation.md` §Phase 5A and
+`docs/experiments.md`. This baseline does not claim or imply anything about
+multimodal benefit — that requires Phase 5B and 5C on the same split, not
+yet built.
+
+## 21. Phase 5B — Arabic text-only encoder comparison
+
+**Why compare two encoders instead of picking one:** the dataset is 100%
+Arabic informal meme text — a real architectural decision, not a
+convenience pick. `microsoft/mdeberta-v3-base` was not chosen by default
+just because DeBERTa was already used in Phase 4; instead two candidates
+were measured head-to-head under identical conditions (same split, same
+frozen-encoder-plus-head architecture, same training/threshold procedure).
+CAMeL-BERT was not added to this comparison — nothing in the dataset
+inspection or error analysis surfaced a concrete, dataset-specific reason
+(e.g. heavy dialectal/slang content that AraBERT/mDeBERTa specifically
+mishandle) that would justify a third candidate; adding it without such a
+reason would be building a model zoo, not answering the actual question.
+
+**Architecture (both candidates, identical):** frozen text encoder → masked
+mean-pooling over `last_hidden_state` (no dedicated pooler/projection used,
+since a base `AutoModel` has none by default) → 768-dim sentence embedding
+→ same classification head as Phase 5A (`Linear(768→256)→ReLU→Dropout(0.2)
+→Linear(256→2)`). Entire encoder frozen (`requires_grad=False`, verified by
+test); only the ~198K-parameter head trained.
+
+**Class weighting:** identical method to Phase 5A — computed from the
+leakage-clean train split only (`[0.555, 5.026]`, same weights as Phase 5A
+since it's the same label distribution, unrelated to which encoder is used).
+
+**Results summary** (full detail, threshold sweeps, and error analysis in
+`docs/evaluation.md`): AraBERT reached test PR-AUC 0.612 vs. mDeBERTa's
+0.514; AraBERT's best validation epoch was epoch 3 of 12 run, vs.
+mDeBERTa's epoch 22 of 31 — AraBERT converged faster to a better optimum on
+this small (2,141-example) training set. **AraBERT selected for Phase 5C**
+on PR-AUC, F1, recall/FNR, validation robustness, compute cost (135M vs.
+278M params, 57.6s vs. 83.3s embedding extraction), and model size —
+mDeBERTa did not win on any of the seven selection criteria, so this was
+not a close call requiring the "prefer the simpler model" tiebreaker.
+
+**A genuine measurement anomaly, reported honestly:** for both encoders,
+measured end-to-end latency (tokenization + encoder + head) came out
+*lower* than the encoder-only stage latency in isolation (e.g. AraBERT:
+encoder-only P50 64.6ms vs. end-to-end P50 38.6ms) — which should be
+impossible if the measurements were noise-free, since end-to-end strictly
+includes the encoder stage. This is attributed to MPS dispatch/scheduling
+jitter on very short single-example forward passes, not a logic error in
+the benchmarking code (the code was manually re-checked; both paths call
+the identical `encode_texts` function). Reported as a real limitation of
+this benchmark's precision at this scale, not smoothed over or hidden.
+
+## 22. Phase 5C — multimodal fusion architecture
+
+**Architecture:** frozen CLIP image encoder (exact Phase 5A checkpoint) →
+512-dim embedding; frozen AraBERT text encoder (exact Phase 5B-selected
+checkpoint) → 768-dim mean-pooled embedding; concatenated to a single
+1280-dim vector (`[text ; image]`, text first — an arbitrary but documented
+and tested ordering) → the same `ClassificationHead` shape used in Phase
+5A/5B (`Linear(1280→256)→ReLU→Dropout(0.2)→Linear(256→2)`), reused as-is
+rather than duplicated, since the head is architecture-agnostic. Both
+encoders remain entirely frozen (`requires_grad=False`, verified); only the
+~330K-parameter fusion head is trained. No cross-attention, no multimodal
+transformer — simple concatenation, exactly as scoped.
+
+**Why frozen-plus-simple-concat first:** per `CLAUDE.md` §15's own
+guidance ("do not begin with an unnecessarily complex multimodal
+transformer") and the explicit instruction for this phase — a cheap,
+interpretable baseline that isolates whether *any* fusion of these two
+frozen representations helps, before spending any budget on fine-tuning or
+attention mechanisms.
+
+**Result, stated precisely:** on the Prop2Hate-Meme evaluation set, frozen
+CLIP + AraBERT late fusion improved F1 (0.638 vs. 0.562/0.548) and PR-AUC
+(0.628 vs. 0.612/0.565) over both unimodal baselines at the shared fixed
+threshold 0.5, with the fusion ablation and 14 direct complementarity cases
+providing evidence that image and text contribute complementary signals.
+This is a dataset-specific, measured finding — not a claim about
+multimodal fusion in general, not evidence of production readiness, and not
+a claim about general multilingual or internet-scale performance. See
+`docs/evaluation.md` for the full comparison, ablation, and complementarity
+evidence backing this claim (it is not asserted from the top-line number
+alone).

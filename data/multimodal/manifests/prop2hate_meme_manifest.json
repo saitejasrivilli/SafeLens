@@ -1,0 +1,116 @@
+{
+  "attribution": "Prop2Hate-Meme dataset by QCRI (Qatar Computing Research Institute), extending the ArMeme corpus with hate-speech annotations. See https://arxiv.org/abs/2409.07246.",
+  "dataset_name": "QCRI/Prop2Hate-Meme",
+  "dataset_revision": "7315cbe87f45750b8b027c66fa662b536bce8248",
+  "distribution_shift": {
+    "absolute_difference_test_minus_train": 0.15473203876617247,
+    "authoritative_explanation_found": false,
+    "clean_train_positive_rate": 0.09948622139187295,
+    "dev_positive_rate": 0.09935897435897435,
+    "note": "No rationale for the train/dev vs. test prevalence difference was found in the official QCRI/Prop2Hate-Meme dataset card or README. Documented as an observed distribution shift, not an inferred cause.",
+    "relative_ratio_test_over_train": 2.5567641271169372,
+    "test_positive_rate": 0.25412541254125415,
+    "train_positive_rate": 0.09939337377508166
+  },
+  "duplicate_summary": {
+    "duplicate_ids": 0,
+    "duplicate_image_hashes": 0,
+    "duplicate_pairs": 0,
+    "duplicate_texts": 4
+  },
+  "expected_split_counts": {
+    "dev": 312,
+    "test": 606,
+    "train": 2143
+  },
+  "leakage_remediation": {
+    "dev_count": 312,
+    "final_train_count": 2141,
+    "original_train_count": 2143,
+    "post_remediation_duplicate_summary": {
+      "duplicate_ids": 0,
+      "duplicate_image_hashes": 0,
+      "duplicate_pairs": 0,
+      "duplicate_texts": 2
+    },
+    "post_remediation_leakage_clean": true,
+    "removed_examples": [
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-10-03_20-05-15_UTC.jpg",
+        "text": "فاكره لما قولتيلي انا داخله اصالحكم وارجعكم لبعض"
+      },
+      {
+        "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/325596730_3561165430866879_9207462464562099758_n.jpg",
+        "text": "لن تغرق سفينة انت قائدها"
+      }
+    ],
+    "removed_train_count": 2,
+    "rule": "Exact-text match only (no normalization, no semantic dedup): a training example is removed from the processed training split if its caption text exactly matches any dev or test caption text. Dev and test are never modified. The official raw split (data/multimodal/raw/) is never modified -- this is a processed-split-only remediation.",
+    "test_count": 606
+  },
+  "leakage_summary": {
+    "id_overlaps": {},
+    "image_hash_overlaps": {},
+    "is_clean": false,
+    "pair_overlaps": {},
+    "text_overlaps": {
+      "train<->dev": 1,
+      "train<->test": 1
+    }
+  },
+  "license": "CC-BY-NC-SA-4.0",
+  "preprocessing_version": "v2",
+  "processed_jsonl_hashes": {
+    "dev": "e4ea2b8efc5d5ed452fd216592d666ebeb0f5909f1579ff82aec56dfb6825bee",
+    "test": "0ab9950df0e978482fc2ef353d13580b97ecfe61f83871f4e74b4e104442e883",
+    "train": "90051745f894b260cdaa4b06d1d5f7dfe8b01f5bbf31777c47d76ab488b6a1ce"
+  },
+  "retrieval_date": "2026-08-09T19:34:12.212382+00:00",
+  "source_url": "https://huggingface.co/datasets/QCRI/Prop2Hate-Meme",
+  "split_counts": {
+    "dev": 312,
+    "test": 606,
+    "train": 2143
+  },
+  "validation_summary": {
+    "arabic_text_fraction_overall": 1.0,
+    "image_validation": {
+      "corrupted": 0,
+      "missing": 0,
+      "total_checked": 3061,
+      "valid": 3061
+    },
+    "label_distribution_by_split": {
+      "dev": {
+        "hate_label": {
+          "counts": {
+            "hateful": 31,
+            "not-hateful": 281
+          },
+          "positive_rate": 0.09935897435897435,
+          "total": 312
+        }
+      },
+      "test": {
+        "hate_label": {
+          "counts": {
+            "hateful": 154,
+            "not-hateful": 452
+          },
+          "positive_rate": 0.25412541254125415,
+          "total": 606
+        }
+      },
+      "train": {
+        "hate_label": {
+          "counts": {
+            "hateful": 213,
+            "not-hateful": 1930
+          },
+          "positive_rate": 0.09939337377508166,
+          "total": 2143
+        }
+      }
+    }
+  }
+}

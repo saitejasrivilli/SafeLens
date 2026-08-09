@@ -1,5 +1,18 @@
 # Data Pipeline
 
+**Note:** this document covers the Phase 2-4 `civil_comments` (English text)
+pipeline only. Phase 5 uses a separate dataset (`QCRI/Prop2Hate-Meme`,
+Arabic image+text memes) with its own pipeline, manifest, and documentation
+— see `docs/multimodal_design.md`. The two are not combined.
+
+Phase 5's leakage-handling approach differs from Phase 2's: where Phase 2's
+`civil_comments` split had zero leakage by construction (grouped, stratified
+split — see §Leakage prevention above), Phase 5's *official* raw split
+actually contains 2 minor cross-split caption duplicates. Rather than
+editing the official raw split, Phase 5 preserves it immutably and produces
+a separate leakage-clean *processed* training split instead — see
+`docs/multimodal_design.md` §10 for the full remediation rule and results.
+
 ## Data source
 
 **Dataset:** [`google/civil_comments`](https://huggingface.co/datasets/google/civil_comments) on Hugging Face.

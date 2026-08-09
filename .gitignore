@@ -17,3 +17,8 @@ data/processed/civil_comments/*
 !data/processed/civil_comments/civil_comments_processed.zip
 .DS_Store
 /models/
+
+# Phase 5 multimodal (Prop2Hate-Meme, CC-BY-NC-SA-4.0): raw/processed data,
+# images, and HF cache artifacts are never committed -- manifests are.
+data/multimodal/raw/
+data/multimodal/processed/

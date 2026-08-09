@@ -1,0 +1,556 @@
+{
+  "config": {
+    "decision_threshold": {
+      "candidates": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "selection_metric": "f1"
+    },
+    "head": {
+      "dropout": 0.2,
+      "hidden_dim": 256
+    },
+    "hf_model_name": "microsoft/mdeberta-v3-base",
+    "hf_model_revision": "a0484667b22365f84929a935b5e50a51f71f159d",
+    "max_seq_length": 64,
+    "model_name": "mdeberta",
+    "model_version": "v1",
+    "training": {
+      "batch_size": 64,
+      "early_stopping_patience": 8,
+      "epochs": 50,
+      "learning_rate": 0.001,
+      "model_selection_metric": "pr_auc",
+      "seed": 42,
+      "use_class_weighting": true,
+      "weight_decay": 0.01
+    }
+  },
+  "dataset_manifest": {
+    "attribution": "Prop2Hate-Meme dataset by QCRI (Qatar Computing Research Institute), extending the ArMeme corpus with hate-speech annotations. See https://arxiv.org/abs/2409.07246.",
+    "dataset_name": "QCRI/Prop2Hate-Meme",
+    "dataset_revision": "7315cbe87f45750b8b027c66fa662b536bce8248",
+    "distribution_shift": {
+      "absolute_difference_test_minus_train": 0.15473203876617247,
+      "authoritative_explanation_found": false,
+      "clean_train_positive_rate": 0.09948622139187295,
+      "dev_positive_rate": 0.09935897435897435,
+      "note": "No rationale for the train/dev vs. test prevalence difference was found in the official QCRI/Prop2Hate-Meme dataset card or README. Documented as an observed distribution shift, not an inferred cause.",
+      "relative_ratio_test_over_train": 2.5567641271169372,
+      "test_positive_rate": 0.25412541254125415,
+      "train_positive_rate": 0.09939337377508166
+    },
+    "duplicate_summary": {
+      "duplicate_ids": 0,
+      "duplicate_image_hashes": 0,
+      "duplicate_pairs": 0,
+      "duplicate_texts": 4
+    },
+    "expected_split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "leakage_remediation": {
+      "dev_count": 312,
+      "final_train_count": 2141,
+      "original_train_count": 2143,
+      "post_remediation_duplicate_summary": {
+        "duplicate_ids": 0,
+        "duplicate_image_hashes": 0,
+        "duplicate_pairs": 0,
+        "duplicate_texts": 2
+      },
+      "post_remediation_leakage_clean": true,
+      "removed_examples": [
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2022-10-03_20-05-15_UTC.jpg",
+          "text": "فاكره لما قولتيلي انا داخله اصالحكم وارجعكم لبعض"
+        },
+        {
+          "example_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/ArabianMemez/325596730_3561165430866879_9207462464562099758_n.jpg",
+          "text": "لن تغرق سفينة انت قائدها"
+        }
+      ],
+      "removed_train_count": 2,
+      "rule": "Exact-text match only (no normalization, no semantic dedup): a training example is removed from the processed training split if its caption text exactly matches any dev or test caption text. Dev and test are never modified. The official raw split (data/multimodal/raw/) is never modified -- this is a processed-split-only remediation.",
+      "test_count": 606
+    },
+    "leakage_summary": {
+      "id_overlaps": {},
+      "image_hash_overlaps": {},
+      "is_clean": false,
+      "pair_overlaps": {},
+      "text_overlaps": {
+        "train<->dev": 1,
+        "train<->test": 1
+      }
+    },
+    "license": "CC-BY-NC-SA-4.0",
+    "preprocessing_version": "v2",
+    "processed_jsonl_hashes": {
+      "dev": "e4ea2b8efc5d5ed452fd216592d666ebeb0f5909f1579ff82aec56dfb6825bee",
+      "test": "0ab9950df0e978482fc2ef353d13580b97ecfe61f83871f4e74b4e104442e883",
+      "train": "90051745f894b260cdaa4b06d1d5f7dfe8b01f5bbf31777c47d76ab488b6a1ce"
+    },
+    "retrieval_date": "2026-08-09T19:34:12.212382+00:00",
+    "source_url": "https://huggingface.co/datasets/QCRI/Prop2Hate-Meme",
+    "split_counts": {
+      "dev": 312,
+      "test": 606,
+      "train": 2143
+    },
+    "validation_summary": {
+      "arabic_text_fraction_overall": 1.0,
+      "image_validation": {
+        "corrupted": 0,
+        "missing": 0,
+        "total_checked": 3061,
+        "valid": 3061
+      },
+      "label_distribution_by_split": {
+        "dev": {
+          "hate_label": {
+            "counts": {
+              "hateful": 31,
+              "not-hateful": 281
+            },
+            "positive_rate": 0.09935897435897435,
+            "total": 312
+          }
+        },
+        "test": {
+          "hate_label": {
+            "counts": {
+              "hateful": 154,
+              "not-hateful": 452
+            },
+            "positive_rate": 0.25412541254125415,
+            "total": 606
+          }
+        },
+        "train": {
+          "hate_label": {
+            "counts": {
+              "hateful": 213,
+              "not-hateful": 1930
+            },
+            "positive_rate": 0.09939337377508166,
+            "total": 2143
+          }
+        }
+      }
+    }
+  },
+  "dataset_manifest_reference": "/Users/saitejasrivillibhutturu/Downloads/SafeLens/data/multimodal/manifests/prop2hate_meme_manifest.json",
+  "dev_metrics_at_threshold_0.5": {
+    "accuracy": 0.6923076923076923,
+    "confusion_matrix": {
+      "false_negative": 9,
+      "false_positive": 87,
+      "true_negative": 194,
+      "true_positive": 22
+    },
+    "f1": 0.3142857142857143,
+    "false_negative_rate": 0.2903225806451613,
+    "false_positive_rate": 0.3096085409252669,
+    "macro_f1": 0.5579693034238489,
+    "n": 312,
+    "positive_prediction_rate": 0.34935897435897434,
+    "pr_auc": 0.34569847544249993,
+    "precision": 0.2018348623853211,
+    "recall": 0.7096774193548387,
+    "roc_auc": 0.7583515095855814,
+    "threshold": 0.5
+  },
+  "embed_dim": 768,
+  "environment": {
+    "cuda_available": false,
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "git_commit": "0a4eed57c10efc9bc4e7237d622e95ae9fb8cd1a",
+    "mps_available": true,
+    "packages": {
+      "scikit-learn": "1.9.0",
+      "torch": "2.13.0",
+      "transformers": "5.14.1"
+    },
+    "python_version": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 17.0.0 (clang-1700.6.4.2)]"
+  },
+  "error_analysis": {
+    "high_confidence_false_negatives": [
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/ex.officiall/2019-10-19_17-06-13_UTC.jpg",
+        "predicted_probability": 0.1331,
+        "text_excerpt": "•بس انتي مش هتلاقي حد زيي• - ياشيخ الله يحرقك انت واللي زيك .",
+        "true_label": 1
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_899031144344763392/b6c6fed394f164c693696b9a808ccfb2.jpg",
+        "predicted_probability": 0.1832,
+        "text_excerpt": "بنفكر ثعمل فيلم ننشر فيه ثهافتنا وتاريخنا للعالم كله هوا دا اللن آعمله Gif؟! تارخنا! ططب سس سلام",
+        "true_label": 1
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_294422894395147633/22fcf9cf74fc48297210b4aa10a7a30e.jpg",
+        "predicted_probability": 0.1878,
+        "text_excerpt": "قولهم هتاكلوا فرنسا يعني ..وزعق فيها",
+        "true_label": 1
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_115264071700638504/cabb449729fe110e09ae6efc6b424b04.jpg",
+        "predicted_probability": 0.1993,
+        "text_excerpt": "- لو سمحتي ممكن تقعدي انتي جنب الشب عشان أنا منقبة!  = وأنا شورقاصة ؟!",
+        "true_label": 1
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_image_august13/www.pinterest.com_pin_115264071700638504/7e8bbf1cc1c40c82abebb5ff353ca320.jpg",
+        "predicted_probability": 0.2002,
+        "text_excerpt": "لما حد يسألك إتعلمت إيه من زمايلك ف الشغل  جعلوني مجرمآ",
+        "true_label": 1
+      }
+    ],
+    "high_confidence_false_positives": [
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/people_Islamic-memes/60912664_298387497736519_5791322395709014016_n.jpg",
+        "predicted_probability": 0.9131,
+        "text_excerpt": "عندما تقوم بالتوقف عن استخدام فايسبوك نظرا لسياسة الخصوصية وتقوم باستبداله بموقع تواصل اجتماعي آخر",
+        "true_label": 0
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Pinterest/images/pinterest_images_part2/www.pinterest.com_pin_69313281753218775/b8c3e3eb2943e852b4723b811c92059f.jpg",
+        "predicted_probability": 0.8831,
+        "text_excerpt": "شعبة الملابس الجاهزة  زيادة في أسعار ملابس \"الصيف القادم\" تصل ل%100  هنصيف عريانين كلنا",
+        "true_label": 0
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Instagram/IMAGES/de7ktna/2020-07-21_08-49-21_UTC.jpg",
+        "predicted_probability": 0.8779,
+        "text_excerpt": "قد يسرق الفقر مالها لكن لا حيلة له بجمالها",
+        "true_label": 0
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/sanat.meme_/109565478_1458796407645893_467067415241172969_n.jpg",
+        "predicted_probability": 0.8264,
+        "text_excerpt": "د. معين عبدالملك سعيد رئيس الوزراء التقيت اليوم بفخامة الرئيس المصري عبد الفتاح وسلمته رساله خطية من...",
+        "true_label": 0
+      },
+      {
+        "content_id": "data/arabic_memes_fb_insta_pinterest/Facebook/images/nasseralkhlify/27628899_1575007299262420_7066500968916260054_o.jpg",
+        "predicted_probability": 0.8069,
+        "text_excerpt": "كم هي رائعة صور رواد الفضاء فوق القمر",
+        "true_label": 0
+      }
+    ],
+    "threshold": 0.7,
+    "total_false_negatives": 115,
+    "total_false_positives": 24
+  },
+  "hf_model_name": "microsoft/mdeberta-v3-base",
+  "hf_model_revision": "a0484667b22365f84929a935b5e50a51f71f159d",
+  "inference_benchmark": {
+    "classification_head": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 0.03254150215070695,
+      "p95_ms": 0.03398109838599339,
+      "p99_ms": 0.03480349580058828,
+      "stage": "classification_head",
+      "throughput_examples_per_second": 30532.820586571586,
+      "warmup_iterations": 5
+    },
+    "end_to_end": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 48.35035401629284,
+      "p95_ms": 93.80832325259684,
+      "p99_ms": 108.23235725372795,
+      "stage": "end_to_end",
+      "throughput_examples_per_second": 18.535098843828134,
+      "warmup_iterations": 5
+    },
+    "environment": "Measured on macOS-15.5-arm64-arm-64bit, device=mps",
+    "text_encoder": {
+      "batch_size": 1,
+      "device": "mps",
+      "measured_iterations": 50,
+      "p50_ms": 52.752311996300705,
+      "p95_ms": 91.10973980277775,
+      "p99_ms": 106.0158171522198,
+      "stage": "text_encoder",
+      "throughput_examples_per_second": 17.329981073846906,
+      "warmup_iterations": 5
+    },
+    "tokenization": {
+      "batch_size": 1,
+      "device": "cpu",
+      "measured_iterations": 50,
+      "p50_ms": 0.1221249985974282,
+      "p95_ms": 0.12705799454124644,
+      "p99_ms": 0.12894874234916642,
+      "stage": "tokenization",
+      "throughput_examples_per_second": 8141.4461765700535,
+      "warmup_iterations": 5
+    }
+  },
+  "max_seq_length": 64,
+  "model_name": "mdeberta",
+  "model_version": "v1",
+  "parameter_count": 278218752,
+  "positive_rate": {
+    "dev": 0.09935897588729858,
+    "test": 0.2541254162788391,
+    "train": 0.09948622435331345
+  },
+  "selected_threshold": 0.7,
+  "split_sizes": {
+    "dev": 312,
+    "test": 606,
+    "train": 2141
+  },
+  "test_metrics_at_selected_threshold": {
+    "accuracy": 0.7706270627062707,
+    "confusion_matrix": {
+      "false_negative": 115,
+      "false_positive": 24,
+      "true_negative": 428,
+      "true_positive": 39
+    },
+    "f1": 0.35944700460829493,
+    "false_negative_rate": 0.7467532467532467,
+    "false_positive_rate": 0.05309734513274336,
+    "macro_f1": 0.6098742560729917,
+    "n": 606,
+    "positive_prediction_rate": 0.10396039603960396,
+    "pr_auc": 0.5137559154142932,
+    "precision": 0.6190476190476191,
+    "recall": 0.2532467532467532,
+    "roc_auc": 0.7601999770141363,
+    "threshold": 0.7
+  },
+  "test_metrics_at_threshold_0.5": {
+    "accuracy": 0.7227722772277227,
+    "confusion_matrix": {
+      "false_negative": 61,
+      "false_positive": 107,
+      "true_negative": 345,
+      "true_positive": 93
+    },
+    "f1": 0.5254237288135594,
+    "false_negative_rate": 0.3961038961038961,
+    "false_positive_rate": 0.23672566371681417,
+    "macro_f1": 0.6648097665046817,
+    "n": 606,
+    "positive_prediction_rate": 0.33003300330033003,
+    "pr_auc": 0.5137559154142932,
+    "precision": 0.465,
+    "recall": 0.6038961038961039,
+    "roc_auc": 0.7601999770141363,
+    "threshold": 0.5
+  },
+  "threshold_sweep_dev_only": [
+    {
+      "accuracy": 0.11858974358974358,
+      "confusion_matrix": {
+        "false_negative": 1,
+        "false_positive": 274,
+        "true_negative": 7,
+        "true_positive": 30
+      },
+      "f1": 0.1791044776119403,
+      "false_negative_rate": 0.03225806451612903,
+      "false_positive_rate": 0.9750889679715302,
+      "macro_f1": 0.11377369209316737,
+      "n": 312,
+      "positive_prediction_rate": 0.9743589743589743,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.09868421052631579,
+      "recall": 0.967741935483871,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.1
+    },
+    {
+      "accuracy": 0.23717948717948717,
+      "confusion_matrix": {
+        "false_negative": 2,
+        "false_positive": 236,
+        "true_negative": 45,
+        "true_positive": 29
+      },
+      "f1": 0.19594594594594594,
+      "false_negative_rate": 0.06451612903225806,
+      "false_positive_rate": 0.8398576512455516,
+      "macro_f1": 0.2351680949241925,
+      "n": 312,
+      "positive_prediction_rate": 0.8493589743589743,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.10943396226415095,
+      "recall": 0.9354838709677419,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.2
+    },
+    {
+      "accuracy": 0.38461538461538464,
+      "confusion_matrix": {
+        "false_negative": 2,
+        "false_positive": 190,
+        "true_negative": 91,
+        "true_positive": 29
+      },
+      "f1": 0.232,
+      "false_negative_rate": 0.06451612903225806,
+      "false_positive_rate": 0.6761565836298933,
+      "macro_f1": 0.3593155080213904,
+      "n": 312,
+      "positive_prediction_rate": 0.7019230769230769,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.1324200913242009,
+      "recall": 0.9354838709677419,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.3
+    },
+    {
+      "accuracy": 0.5288461538461539,
+      "confusion_matrix": {
+        "false_negative": 6,
+        "false_positive": 141,
+        "true_negative": 140,
+        "true_positive": 25
+      },
+      "f1": 0.25380710659898476,
+      "false_negative_rate": 0.1935483870967742,
+      "false_positive_rate": 0.501779359430605,
+      "macro_f1": 0.45477240575850875,
+      "n": 312,
+      "positive_prediction_rate": 0.532051282051282,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.15060240963855423,
+      "recall": 0.8064516129032258,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.4
+    },
+    {
+      "accuracy": 0.6923076923076923,
+      "confusion_matrix": {
+        "false_negative": 9,
+        "false_positive": 87,
+        "true_negative": 194,
+        "true_positive": 22
+      },
+      "f1": 0.3142857142857143,
+      "false_negative_rate": 0.2903225806451613,
+      "false_positive_rate": 0.3096085409252669,
+      "macro_f1": 0.5579693034238489,
+      "n": 312,
+      "positive_prediction_rate": 0.34935897435897434,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.2018348623853211,
+      "recall": 0.7096774193548387,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.5
+    },
+    {
+      "accuracy": 0.7916666666666666,
+      "confusion_matrix": {
+        "false_negative": 16,
+        "false_positive": 49,
+        "true_negative": 232,
+        "true_positive": 15
+      },
+      "f1": 0.3157894736842105,
+      "false_negative_rate": 0.5161290322580645,
+      "false_positive_rate": 0.17437722419928825,
+      "macro_f1": 0.5964580638742414,
+      "n": 312,
+      "positive_prediction_rate": 0.20512820512820512,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.234375,
+      "recall": 0.4838709677419355,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.6
+    },
+    {
+      "accuracy": 0.8717948717948718,
+      "confusion_matrix": {
+        "false_negative": 18,
+        "false_positive": 22,
+        "true_negative": 259,
+        "true_positive": 13
+      },
+      "f1": 0.3939393939393939,
+      "false_negative_rate": 0.5806451612903226,
+      "false_positive_rate": 0.07829181494661921,
+      "macro_f1": 0.6611274030628869,
+      "n": 312,
+      "positive_prediction_rate": 0.11217948717948718,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.37142857142857144,
+      "recall": 0.41935483870967744,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.7
+    },
+    {
+      "accuracy": 0.9006410256410257,
+      "confusion_matrix": {
+        "false_negative": 24,
+        "false_positive": 7,
+        "true_negative": 274,
+        "true_positive": 7
+      },
+      "f1": 0.3111111111111111,
+      "false_negative_rate": 0.7741935483870968,
+      "false_positive_rate": 0.02491103202846975,
+      "macro_f1": 0.6287852619458837,
+      "n": 312,
+      "positive_prediction_rate": 0.04487179487179487,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.5,
+      "recall": 0.22580645161290322,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.8
+    },
+    {
+      "accuracy": 0.9006410256410257,
+      "confusion_matrix": {
+        "false_negative": 31,
+        "false_positive": 0,
+        "true_negative": 281,
+        "true_positive": 0
+      },
+      "f1": 0.0,
+      "false_negative_rate": 1.0,
+      "false_positive_rate": 0.0,
+      "macro_f1": 0.47386172006745364,
+      "n": 312,
+      "positive_prediction_rate": 0.0,
+      "pr_auc": 0.34569847544249993,
+      "precision": 0.0,
+      "recall": 0.0,
+      "roc_auc": 0.7583515095855814,
+      "threshold": 0.9
+    }
+  ],
+  "training_environment": {
+    "best_epoch": 22,
+    "class_weights": [
+      0.5552386045455933,
+      5.025821685791016
+    ],
+    "device": "mps",
+    "device_reason": "torch.backends.mps.is_available()",
+    "embedding_extraction_seconds": 83.34032508402015,
+    "epochs_run": 31,
+    "head_training_seconds": 3.3641597919922788,
+    "os": "macOS-15.5-arm64-arm-64bit"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "arabic_text_fraction_overall": 1.0,
+  "image_validation_summary": {
+    "corrupted": 0,
+    "missing": 0,
+    "total_checked": 3061,
+    "valid": 3061
+  },
+  "splits": {
+    "dev": {
+      "arabic_text_fraction": 1.0,
+      "image_issue_examples": [],
+      "image_issues": 0,
+      "label_distribution": {
+        "hate_label": {
+          "counts": {
+            "hateful": 31,
+            "not-hateful": 281
+          },
+          "positive_rate": 0.09935897435897435,
+          "total": 312
+        }
+      },
+      "malformed_examples": [],
+      "malformed_rows": 0,
+      "text_issue_examples": [],
+      "text_issues": 0,
+      "total_rows": 312,
+      "valid_rows": 312
+    },
+    "test": {
+      "arabic_text_fraction": 1.0,
+      "image_issue_examples": [],
+      "image_issues": 0,
+      "label_distribution": {
+        "hate_label": {
+          "counts": {
+            "hateful": 154,
+            "not-hateful": 452
+          },
+          "positive_rate": 0.25412541254125415,
+          "total": 606
+        }
+      },
+      "malformed_examples": [],
+      "malformed_rows": 0,
+      "text_issue_examples": [],
+      "text_issues": 0,
+      "total_rows": 606,
+      "valid_rows": 606
+    },
+    "train": {
+      "arabic_text_fraction": 1.0,
+      "image_issue_examples": [],
+      "image_issues": 0,
+      "label_distribution": {
+        "hate_label": {
+          "counts": {
+            "hateful": 213,
+            "not-hateful": 1930
+          },
+          "positive_rate": 0.09939337377508166,
+          "total": 2143
+        }
+      },
+      "malformed_examples": [],
+      "malformed_rows": 0,
+      "text_issue_examples": [],
+      "text_issues": 0,
+      "total_rows": 2143,
+      "valid_rows": 2143
+    }
+  }
+}

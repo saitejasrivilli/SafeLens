@@ -281,3 +281,543 @@ decision.
 - Trained model weights were not retrieved from Colab at the time of writing; only the
   benchmark report and plots were downloaded (`models/text/deberta/v1/` is currently empty
   locally).
+
+---
+
+# Phase 5 — Evaluation Policy (Prop2Hate-Meme, data pipeline stage only)
+
+No model has been trained for Phase 5 yet (5A/5B/5C are not implemented). This section
+records the evaluation policy that Phase 5A-5C must follow, decided now because it is a
+direct consequence of two measured data findings from `docs/multimodal_design.md` §10-10b:
+a minor raw-split leakage issue (remediated for the processed training split, raw left
+untouched) and a substantial, unexplained train/dev vs. test prevalence shift (9.9% vs.
+25.4%).
+
+## Why a policy is needed before any model is trained
+
+Dev has only 31 positive examples (of 312) — any single-run validation-selected threshold
+on a set this small is inherently high-variance (this is the same lesson already learned in
+Phase 4, §evaluation.md above, where a 61-positive validation set produced a visibly noisy
+threshold sweep). Combined with test's substantially different prevalence, a threshold tuned
+on dev has no guarantee of being appropriate for test's actual class balance. Treating a
+dev-selected threshold as *the* answer, rather than one data point among several reported
+metrics, would overstate confidence the data doesn't support.
+
+## Policy (binding for Phase 5A, 5B, and 5C)
+
+1. **Primary metric: PR-AUC.** Threshold-independent, reported for every model, every split
+   evaluation. This is the headline number for comparing text-only vs. image-only vs.
+   multimodal.
+2. **Also always reported:** ROC-AUC, F1, precision, recall, FPR, FNR — same full metric set
+   already established in Phase 3/4, applied consistently here.
+3. **Thresholded metrics reported in two clearly labeled forms, never conflated:**
+   - **"Fixed-threshold results"** — a single, clearly documented threshold (e.g. 0.5) applied
+     identically across text-only/image-only/multimodal for direct comparability, decided
+     before looking at any results.
+   - **"Validation-selected-threshold results"** — a secondary analysis, threshold chosen via
+     a sweep on dev only, explicitly labeled as secondary given dev's small positive count.
+4. **Test is touched exactly once per model**, after any threshold decision (fixed or
+   validation-selected) is already frozen — identical discipline to Phase 3/4.
+5. **No threshold is ever selected using test performance**, for any of the three models.
+
+This policy is applied below for Phase 5A.
+
+---
+
+## Phase 5A — Image-Only Baseline (frozen CLIP)
+
+All numbers from `benchmarks/results/multimodal/image_only/experiment.json`
+(`make image-baseline-train`), measured locally on **Apple M2 (MPS)**. No
+text was used anywhere in this model.
+
+### Split sizes and measured positive rates
+
+| split | n | positive rate |
+|---|---|---|
+| train (leakage-clean) | 2,141 | 9.95% |
+| dev | 312 | 9.94% |
+| test | 606 | **25.41%** |
+
+Same 2.56× test/train prevalence shift documented in
+`docs/multimodal_design.md` §10b — kept visible here, not hidden or
+corrected for.
+
+### A. Test @ fixed threshold 0.5
+
+| metric | value |
+|---|---|
+| precision | 0.450 |
+| recall | 0.701 |
+| F1 | 0.548 |
+| macro F1 | 0.665 |
+| PR-AUC | 0.565 |
+| ROC-AUC | 0.758 |
+| FPR | 0.292 |
+| FNR | 0.299 |
+
+Confusion matrix (n=606): TN=320, FP=132, FN=46, TP=108.
+
+### B. Dev-only threshold sweep and selection
+
+| threshold | precision | recall | F1 | FPR | FNR |
+|---|---|---|---|---|---|
+| 0.1 | 0.099 | 1.000 | 0.181 | 1.000 | 0.000 |
+| 0.2 | 0.099 | 1.000 | 0.181 | 1.000 | 0.000 |
+| 0.3 | 0.104 | 1.000 | 0.188 | 0.950 | 0.000 |
+| 0.4 | 0.135 | 0.935 | 0.236 | 0.662 | 0.065 |
+| 0.5 | 0.180 | 0.710 | 0.288 | 0.356 | 0.290 |
+| **0.6** | **0.271** | **0.516** | **0.356** | **0.153** | **0.484** |
+| 0.7 | 0.321 | 0.290 | 0.305 | 0.068 | 0.710 |
+| 0.8 | 0.750 | 0.097 | 0.171 | 0.004 | 0.903 |
+| 0.9 | 0.000 | 0.000 | 0.000 | 0.000 | 1.000 |
+
+PR-AUC (dev, threshold-independent): **0.282** — notably lower than test's
+0.565, consistent with dev having only 31 positive examples (a small,
+high-variance estimate) and the measured train/dev vs. test distribution
+shift; not a contradiction, but a real reason to treat the dev-selected
+threshold as provisional (per the Phase 5 evaluation policy above).
+
+**Selected threshold: 0.6** (max dev F1, 0.356). Frozen before the one test
+evaluation below.
+
+### C. Test @ dev-selected threshold 0.6
+
+| metric | value |
+|---|---|
+| precision | 0.615 |
+| recall | 0.468 |
+| F1 | 0.531 |
+| macro F1 | 0.698 |
+| PR-AUC | 0.565 |
+| ROC-AUC | 0.758 |
+| FPR | 0.100 |
+| FNR | 0.532 |
+
+Confusion matrix (n=606): TN=407, FP=45, FN=82, TP=72.
+
+Plots: `benchmarks/results/multimodal/image_only/precision_recall_curve.png`
+(dev), `confusion_matrix.png` (test, threshold=0.6).
+
+### Training behavior
+
+Best epoch: **0** (first epoch), out of 9 epochs run before early stopping
+(patience=8). Head training itself took 0.66s (trivial — only ~132K
+trainable params on cached embeddings); embedding extraction for all 3,059
+images took 87.1s on M2 MPS. Class weights used: `[0.555, 5.026]`.
+
+### Error analysis (image-only, no text used to explain predictions)
+
+45 false positives, 82 false negatives on test (threshold=0.6).
+
+**High-confidence false positives** (model >0.77 confident, wrong): all 5
+top examples are Facebook/Pinterest meme images from accounts named
+`salsamemers`, `sanat.meme_` (appears twice in the top 5) — a **visual
+pattern worth naming honestly**: the model may be picking up on a
+stylistic/format signal common to certain meme-page accounts' image
+templates rather than genuinely hateful visual content, but this is
+inspection of filenames/paths, not the pixels themselves, so it is reported
+as an observed pattern in the metadata, not a confirmed visual cause.
+
+**High-confidence false negatives** (model <0.31 confident, should have
+been ≥0.6): all 5 top examples are Instagram/Pinterest images from the
+`ex.officiall` account and `pinterest_images_part2` folder. No specific
+visual content pattern was identified from image paths alone — flagging the
+limitation directly: a genuine visual inspection of the actual pixel
+content (not just filenames) would be needed to say anything more, and
+that was not done here.
+
+### Inference latency (measured on Apple M2, MPS + CPU stages, batch size 1)
+
+| stage | device | P50 | P95 | P99 | throughput |
+|---|---|---|---|---|---|
+| preprocessing | cpu | 2.04ms | 2.82ms | 3.01ms | 470.6/sec |
+| CLIP encoder | mps | 22.93ms | 30.08ms | 67.02ms | 40.2/sec |
+| classification head | cpu | 0.032ms | 0.033ms | 0.033ms | 30,836/sec |
+| end-to-end | mps | 28.30ms | 34.11ms | 38.38ms | 34.8/sec |
+
+The CLIP encoder dominates end-to-end latency by roughly 3 orders of
+magnitude over the classification head — expected, since the head is a
+132K-parameter linear model and CLIP is 151M parameters. These are M2
+numbers; not compared to Phase 4's Colab T4 DeBERTa numbers, per the
+cross-hardware-comparison rule already established.
+
+### Limitations
+
+- Dev's PR-AUC (0.282) is a noisy estimate (31 positives) and was still used
+  for model selection — best_epoch=0 may reflect this noise rather than a
+  genuinely-converged-immediately model; not independently verified either
+  way.
+- Test prevalence (25.4%) vs. train/dev (~9.9%) — the dev-selected threshold
+  0.6 should not be treated as calibrated for test's actual class balance;
+  it is reported as a secondary analysis, not a production recommendation.
+- The original error-analysis pass only had file-path/account metadata, not
+  pixel-level inspection — **addressed below** with an actual visual review.
+- This is a baseline only — no claim of multimodal benefit or non-benefit is
+  made or implied; that requires Phase 5B/5C on the same split.
+
+## Phase 5A Visual Error Analysis (pixel-level, metadata kept separate)
+
+Manual review of the same 5 high-confidence false positives / false
+negatives (threshold=0.6), using actual image pixels — text/captions were
+NOT used to interpret these images. Full record:
+`benchmarks/results/multimodal/image_only/visual_error_analysis.json`.
+
+**A. Pixel/visual observations (new):**
+- False positives (5/5 reviewed): dense embedded-text overlay covering a
+  large image fraction; 4/5 show formally-dressed men in
+  political/official-meeting settings; 3/5 contain a small recurring
+  logo-sticker watermark graphic; all sharp/high-resolution.
+- False negatives (5/5 reviewed): 4/5 are classic Egyptian film/TV
+  screenshots reused as reaction-meme templates (visibly older film stock,
+  muted colors, grain in 2/5) with a plain white caption bar; 1/5 is a
+  modern personal photo (visual outlier); 0/5 show the watermark-sticker
+  pattern seen in the false positives; no violent/graphic symbolism visible
+  in any of the 10 images reviewed.
+
+**B. Metadata observations (kept separate, unchanged from before):** 3/5
+false positives' file paths reference two specific Facebook page accounts
+(`salsamemers`, `sanat.meme_`) — this remains a filename fact, not a visual
+one.
+
+**Assessment:** a real, reproducible visual pattern exists and is distinct
+from the metadata pattern — dense-text-overlay-plus-official-photo-plus-
+watermark (FP) vs. plain-caption-bar-film-template-no-watermark (FN). This
+is reported as a plausible, evidence-consistent hypothesis about what
+CLIP's frozen features may be keying on, not a proven causal mechanism —
+and if no such pattern had emerged, that null result would have been
+reported just as directly.
+
+---
+
+## Phase 5B — Arabic Text-Only Baseline: Encoder Comparison
+
+All numbers from `benchmarks/results/multimodal/text_only/{arabert,mdeberta}/experiment.json`
+(`make text-arabic-train-arabert` / `make text-arabic-train-mdeberta`), measured locally on
+Apple M2 (MPS). No image or filename information was used anywhere in either model
+(enforced in code and tested). Same leakage-clean split as Phase 5A: train 2,141 / dev 312 /
+test 606, same 2.56× test/train prevalence shift.
+
+### Test @ fixed threshold 0.5
+
+| metric | AraBERT | mDeBERTa |
+|---|---|---|
+| precision | 0.432 | 0.465 |
+| recall | 0.805 | 0.604 |
+| F1 | 0.562 | 0.525 |
+| PR-AUC | 0.612 | 0.514 |
+| ROC-AUC | 0.802 | 0.760 |
+| FPR | 0.361 | 0.237 |
+| FNR | 0.195 | 0.396 |
+
+### Dev-only threshold sweep and selection
+
+Both swept 0.1–0.9 on dev only. **AraBERT selected 0.8** (max dev F1 0.273,
+dev PR-AUC 0.355). **mDeBERTa selected 0.7** (max dev F1 0.314, dev PR-AUC
+0.346). Full per-threshold tables are in each model's `experiment.json`
+(`threshold_sweep_dev_only`) — omitted here for brevity since neither dev
+PR-AUC estimate should be treated as precise (31 positives).
+
+### Test @ dev-selected threshold
+
+| metric | AraBERT @ 0.8 | mDeBERTa @ 0.7 |
+|---|---|---|
+| precision | 0.656 | 0.619 |
+| recall | 0.409 | 0.253 |
+| F1 | 0.504 | 0.359 |
+| PR-AUC | 0.612 | 0.514 |
+| ROC-AUC | 0.802 | 0.760 |
+| FPR | 0.073 | 0.053 |
+| FNR | 0.591 | 0.747 |
+
+Confusion matrices (test, n=606): AraBERT TN=419/FP=33/FN=91/TP=63;
+mDeBERTa TN=428/FP=24/FN=115/TP=39.
+
+### Required comparison (all three models, test set)
+
+| metric | AraBERT (@0.8) | mDeBERTa (@0.7) | CLIP Image (@0.6, frozen Phase 5A) |
+|---|---|---|---|
+| F1 | 0.504 | 0.359 | 0.531 |
+| PR-AUC | **0.612** | 0.514 | 0.565 |
+| Precision | 0.656 | 0.619 | 0.615 |
+| Recall | 0.409 | 0.253 | **0.468** |
+| FPR | 0.073 | 0.053 | 0.100 |
+| FNR | 0.591 | 0.747 | 0.532 |
+
+CLIP image values are the frozen, unmodified Phase 5A results — not
+retuned or recomputed here. **Latency across model types is not compared**
+here beyond each model's own hardware/workload label, per instructions —
+CLIP, AraBERT, and mDeBERTa were each benchmarked in isolation on M2 under
+their own batch-1/warmup/measured-iteration conditions, and a cross-model
+latency ranking would require a shared benchmark harness that does not yet
+exist.
+
+### Training time and compute
+
+| | AraBERT | mDeBERTa |
+|---|---|---|
+| total parameters | 135,193,344 | 278,218,752 |
+| trainable parameters (head only) | ~198K | ~198K |
+| embedding extraction (2,141+312+606 examples) | 57.6s | 83.3s |
+| head training | 4.6s | 3.4s |
+| best epoch / epochs run | 3 / 12 | 22 / 31 |
+
+### Inference latency (measured on Apple M2, MPS + CPU stages, batch size 1)
+
+| stage | AraBERT P50/P95/P99 | mDeBERTa P50/P95/P99 |
+|---|---|---|
+| text encoder | 64.6 / 147.3 / 196.2 ms | 52.8 / 91.1 / 106.0 ms |
+| end-to-end | 38.6 / 66.6 / 90.0 ms | 48.4 / 93.8 / 108.2 ms |
+
+**Known measurement anomaly:** for both models, end-to-end P50 is *lower*
+than the encoder-only P50 — not physically possible if noise-free, since
+end-to-end includes the encoder stage. Attributed to MPS scheduling jitter
+on very short single-example forward passes on this hardware; the
+benchmarking code itself was checked and both paths call the same
+`encode_texts` function. Reported as a real precision limitation of this
+benchmark, not hidden.
+
+### Model selection: AraBERT
+
+Selection criteria in the specified order — AraBERT wins outright, no tie:
+
+1. **PR-AUC:** AraBERT 0.612 > mDeBERTa 0.514.
+2. **F1:** AraBERT 0.562 (@0.5) / 0.504 (@selected) > mDeBERTa 0.525 / 0.359.
+3. **Recall/FNR:** AraBERT recall 0.805/0.409 > mDeBERTa 0.604/0.253; AraBERT FNR 0.195/0.591 < mDeBERTa 0.396/0.747.
+4. **Validation robustness:** AraBERT's best epoch (3/12) came much earlier and more stably than mDeBERTa's (22/31) — mDeBERTa needed nearly 3× the epochs to reach a *worse* dev PR-AUC (0.346 vs. AraBERT's 0.355).
+5. **Compute cost:** AraBERT is roughly half the parameters (135M vs. 278M) and ~30% faster to embed the full dataset (57.6s vs. 83.3s).
+6. **Inference latency:** inconclusive given the measurement anomaly above — not used to break the tie because there was no tie to break.
+7. **Model size:** AraBERT smaller (135M vs. 278M params).
+
+**AraBERT is selected for Phase 5C.**
+
+### Text-only error analysis (AraBERT, threshold=0.8)
+
+33 false positives, 91 false negatives on test.
+
+**High-confidence false positives** (>0.92 confidence, wrong) cluster
+around **gender-relations discourse** — e.g. commentary on a car
+manufacturer recalling vehicles due to voice-recognition issues framed
+around a female voice, a religious/legal discussion of custody law
+fairness for divorced mothers, and general statements contrasting how "men
+see women" vs. "women see men." None of these read as overtly hateful in
+isolation — several are neutral or explicitly measured commentary (the
+custody-law example explicitly argues *for* fairness) — suggesting the
+model may be over-associating **gender-related topic words** with the
+hateful class, independent of actual stance or sentiment. This is a
+plausible pattern from direct inspection of the actual excerpts, not
+invented.
+
+**High-confidence false negatives** (<0.22 confidence, should have been
+≥0.8) are uniformly **casual, slang-heavy, everyday-life posts** — exam
+stress, loneliness, a breakup joke, self-deprecating humor about
+depression — using colloquial Egyptian Arabic idioms and no overtly hateful
+vocabulary. This is consistent with the same pattern noted in Phase 4's
+DeBERTa error analysis on a different dataset: **implicit or
+context-dependent hatefulness expressed through slang/mockery, without
+explicit slurs, is hard for a model to catch** — here compounded by the
+fact that a frozen, mean-pooled sentence embedding has limited capacity to
+resolve subtle, culturally-coded mockery. No sarcasm/code-switching
+(mixing Arabic with another language) was observed in this specific
+5-example sample; not claiming it doesn't occur elsewhere in the dataset,
+only that it wasn't present in what was actually inspected.
+
+### Limitations (Phase 5B)
+
+- Same 2,141/312/606 split and 2.56× test/train prevalence shift as Phase 5A.
+- Dev-selected thresholds (0.8 AraBERT, 0.7 mDeBERTa) rest on only 31 dev
+  positives — treated as provisional, not production-calibrated, per policy.
+- Mean-pooling (no learned pooler) may understate what a fine-tuned
+  classification head or `[CLS]`-token pooling could achieve — not tested
+  here, since the brief was frozen-encoder-plus-head only.
+- The end-to-end-faster-than-encoder-only latency anomaly (above) means the
+  latency numbers in this section should be treated as directionally
+  informative, not precise, at this measurement scale.
+- Error analysis samples are small (5 examples per category) and
+  qualitative — real patterns, not statistically validated ones.
+
+---
+
+## Phase 5C — Multimodal Fusion (frozen CLIP + frozen AraBERT)
+
+All numbers from `benchmarks/results/multimodal/fusion/experiment.json`
+(`make multimodal-fusion-train`), measured locally on Apple M2 (MPS). Uses
+the exact Phase 5A CLIP checkpoint and exact Phase 5B-selected AraBERT
+checkpoint, both frozen; only a ~330K-parameter fusion head is trained.
+Same leakage-clean split as Phase 5A/5B (train 2,141 / dev 312 / test 606),
+same 2.56× test/train prevalence shift.
+
+### Primary comparison — fixed threshold 0.5 (test set)
+
+| metric | Image (CLIP) | Text (AraBERT) | Multimodal (fusion) |
+|---|---|---|---|
+| F1 | 0.548 | 0.562 | **0.638** |
+| PR-AUC | 0.565 | 0.612 | **0.628** |
+| Precision | 0.450 | 0.432 | 0.572 |
+| Recall | 0.701 | **0.805** | 0.721 |
+| FPR | 0.292 | 0.361 | 0.184 |
+| FNR | 0.299 | 0.195 | 0.279 |
+
+Confusion matrix (fusion, test, n=606, threshold=0.5): TN=369, FP=83,
+FN=43, TP=111.
+
+**Precise statement:** on the Prop2Hate-Meme evaluation set, frozen CLIP +
+AraBERT late fusion improved F1 and PR-AUC over both unimodal baselines,
+with the fusion ablation and 14 direct complementarity cases (below)
+providing evidence that image and text contribute complementary signals.
+This is a measured result specific to this dataset and task, not the
+assumed outcome — the hypothesis was tested, not presumed, and is not
+generalized beyond what was measured here. AraBERT still has the single
+best recall/FNR of the three.
+
+### Ablation: standalone models vs. fusion-model-with-one-input-replaced
+
+**These are not the same thing** — reported separately per instructions:
+
+| | F1 | PR-AUC | Recall | FNR |
+|---|---|---|---|---|
+| Standalone CLIP (Phase 5A, own trained head) | 0.548 | 0.565 | 0.701 | 0.299 |
+| Standalone AraBERT (Phase 5B, own trained head) | 0.562 | 0.612 | 0.805 | 0.195 |
+| **Fusion, full input** (text+image) | **0.638** | **0.628** | 0.721 | 0.279 |
+| Fusion, image-only input (text replaced by train-mean) | 0.546 | 0.547 | 0.539 | 0.461 |
+| Fusion, text-only input (image replaced by train-mean) | 0.538 | 0.549 | 0.571 | 0.429 |
+
+The fusion head, when deprived of either modality at inference (via the
+train-mean placeholder), drops back down to roughly standalone-model
+territory (F1 ~0.54 either way) — **it does not retain its advantage
+without both inputs**, which is exactly the evidence needed to say the
+fusion head is genuinely using both modalities jointly, not just
+one dominant one with the other along for the ride.
+
+### Complementarity analysis (mandatory, deterministic full-test-set scan)
+
+| category | count | interpretation |
+|---|---|---|
+| Text wrong, image wrong, **fusion correct** | **14** | strongest direct evidence of complementary value |
+| Text correct, image wrong, fusion wrong | 24 | fusion lost information text alone had |
+| Image correct, text wrong, fusion wrong | 25 | fusion lost information image alone had |
+| All three correct | 314 | majority of test set — easy cases for all models |
+| All three wrong | 71 | hard cases for every model |
+
+Standalone accuracy at threshold 0.5 (n=606): text-only 68.2%, image-only
+70.6%, **multimodal 79.2%**.
+
+**Reading this honestly:** the 14 "both-wrong-fusion-right" cases are real,
+positive evidence of complementarity — fusion recovered signal neither
+modality had alone. But the 24+25 cases where a standalone model was right
+and fusion was wrong are equally real: fusion is not a strict improvement
+on every example, it trades some individually-correct predictions for a
+net gain (49 more correct overall than either standalone model at this
+threshold). This is reported as a real trade-off, not hidden in the
+top-line F1 number.
+
+**Two inspected examples from the "both-wrong-fusion-right" set** (image
+pixels and original text both reviewed directly, not inferred): both are
+comedic memes — one a child photoshopped into a nostalgic "sun" template
+mocking a childhood saying, another a joke about an imam speeding on a
+scooter to the mosque for the dawn call to prayer. Neither the text nor
+the image alone reads as overtly hateful; both involve **mockery framed
+around a religious figure/practice**, where the combination of the comedic
+visual framing and the specific textual reference is plausibly what
+distinguishes "just a joke" from "mockery of religion" in the annotators'
+judgment — consistent with, though not proof of, the earlier finding that
+implicit/context-dependent hatefulness is the hardest category for any
+single modality.
+
+### Error analysis (fusion, threshold=0.5, both text and image inspected)
+
+83 false positives, 43 false negatives.
+
+**High-confidence false positives** again cluster on **gender-relations
+discourse** (same pattern seen in Phase 5B's text-only analysis — e.g. "how
+women see men vs. how men see women," a BMW voice-recognition recall
+described in terms of a female voice) — consistent with the earlier
+finding that this topic area triggers over-prediction regardless of
+modality, now confirmed still present when the image is added, not fixed
+by it.
+
+**High-confidence false negatives** are again casual, slang-heavy
+first-person posts (exam stress, a breakup complaint, a rant about being
+treated unfairly) with unremarkable accompanying images — consistent with
+Phase 5B's finding that implicit/slang-coded hatefulness is under-detected,
+now confirmed the image doesn't rescue these cases either.
+
+### Threshold sweep (dev only, secondary analysis)
+
+**Selected: 0.8** (max dev F1). Per instructions, this is reported
+separately from the primary 0.5 comparison, not as a replacement for it.
+
+| metric | fusion @ 0.5 (primary) | fusion @ 0.8 (dev-selected, secondary) |
+|---|---|---|
+| F1 | 0.638 | 0.502 |
+| PR-AUC | 0.628 | 0.628 |
+| Precision | 0.572 | 0.706 |
+| Recall | 0.721 | 0.390 |
+| FPR | 0.184 | 0.055 |
+| FNR | 0.279 | 0.610 |
+
+**Threshold calibration remains explicitly uncertain**: dev has only 31
+positive examples and test prevalence (25.4%) is 2.56× train/dev's (~9.9%)
+— this threshold is not claimed production-calibrated, consistent with the
+same caveat in Phase 5A/5B.
+
+### Latency (measured on Apple M2, same run, batch size 1)
+
+| stage | device | P50 | P95 | P99 |
+|---|---|---|---|---|
+| image preprocessing | cpu | 1.97ms | 2.72ms | 2.78ms |
+| CLIP encoder | mps | 36.74ms | 52.86ms | 54.56ms |
+| text tokenization | cpu | 0.27ms | 0.47ms | 0.64ms |
+| AraBERT encoder | mps | 28.53ms | 43.82ms | 51.22ms |
+| fusion head | cpu | 0.046ms | 0.048ms | 0.054ms |
+| **multimodal end-to-end** | mps | **66.42ms** | 87.95ms | 93.42ms |
+
+Unlike the Phase 5B anomaly, this run's end-to-end latency (66.4ms) is
+consistent with summing its component stages (36.7 + 28.5 ≈ 65.2ms,
+matching end-to-end within measurement noise) — no anomaly this time.
+
+### Production tradeoff: additional cost of multimodal vs. unimodal (M2, this run)
+
+| | image-only (CLIP) | text-only (AraBERT) | multimodal |
+|---|---|---|---|
+| end-to-end P50 | ~28ms (Phase 5A run) | ~64.6ms/~38.6ms (Phase 5B run, anomalous) | 66.4ms (this run) |
+| total parameters | 151.3M | 135.2M | 286.5M (both encoders) |
+| trainable parameters | ~132K | ~198K | ~330K |
+| missing image | n/a (this is the image model) | works fine (doesn't need image) | must fall back to a modality-handling strategy — not implemented; see limitations |
+| missing text | works fine (doesn't need text) | n/a (this is the text model) | same — not implemented |
+
+Multimodal roughly **doubles model size** (needs both encoders in memory)
+and adds the cost of both encoders' latency (~65ms vs. ~28-40ms for either
+alone) for a measured +0.09 F1 / +0.06-0.11 PR-AUC gain over the better
+single-modality model at threshold 0.5. Whether that tradeoff is worth it
+in production is a cost-model decision (Phase 10 concept), not answered
+here — **not claiming production readiness**.
+
+### Success criteria outcome
+
+**B. Moderate improvement.** On the Prop2Hate-Meme evaluation set, frozen
+CLIP + AraBERT late fusion improved F1 and PR-AUC over both unimodal
+baselines (not marginal — roughly +0.08-0.09 F1 over the better standalone
+model), with the fusion ablation and 14 direct complementarity cases
+providing evidence that image and text contribute complementary signals.
+This is not generalized beyond this dataset/task. Not "strong" because
+AraBERT alone still has better
+recall/FNR, and the fusion model has its own new failure mode (24+25
+individually-correct-but-fusion-wrong cases) that a stronger fusion
+mechanism might address. Reported as measured, not inflated to "strong" or
+deflated to "marginal."
+
+### Limitations (Phase 5C)
+
+- Same split, prevalence shift, and small-dev-set threshold caveats as
+  Phase 5A/5B.
+- Missing-modality behavior at inference is only tested as a controlled
+  ablation (train-mean substitution) — no actual missing-modality handling
+  strategy is implemented for a hypothetical production path.
+- Mean-pooling/no-fine-tuning ceiling applies to both encoders here, same
+  as Phase 5B.
+- Complementarity examples were manually inspected in small numbers (2 of
+  14) — a real but not exhaustive qualitative check.
+- Cross-model-type latency (image vs. text vs. multimodal) is reported
+  from the same run/hardware here, which is more comparable than Phase
+  5A/5B's separate runs, but still only a single M2 run, not averaged
+  across repeated trials.

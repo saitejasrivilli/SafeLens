@@ -1,0 +1,27 @@
+model_name: image-only-clip-vit-b32
+model_version: v1
+
+# Hugging Face model identity, pinned to an exact revision.
+clip_model_name: openai/clip-vit-base-patch32
+clip_revision: 3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268
+
+head:
+  hidden_dim: 256
+  dropout: 0.2
+
+training:
+  learning_rate: 1.0e-3
+  batch_size: 64
+  epochs: 50
+  weight_decay: 0.01
+  seed: 42
+  # Class weights computed from clean_train ONLY (never dev/test). See
+  # docs/model_design.md for why weighting is configurable, not assumed.
+  use_class_weighting: true
+  early_stopping_patience: 8
+  # Model selection during training: best validation (dev) PR-AUC.
+  model_selection_metric: pr_auc
+
+decision_threshold:
+  candidates: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  selection_metric: f1
