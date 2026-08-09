@@ -29,3 +29,9 @@ data-prepare:
 
 data-test:
 	.venv/bin/pytest -v tests/unit/data
+
+baseline-train:
+	.venv/bin/python scripts/train_baseline.py
+
+baseline-test:
+	.venv/bin/pytest -v tests/unit/models

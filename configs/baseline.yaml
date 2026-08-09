@@ -1,0 +1,32 @@
+model_name: baseline-tfidf-logreg
+model_version: v1
+
+tfidf:
+  ngram_range: [1, 2]
+  min_df: 2
+  max_df: 0.95
+  max_features: 20000
+  sublinear_tf: true
+
+logistic_regression:
+  C: 1.0
+  class_weight: balanced
+  max_iter: 1000
+  random_state: 42
+
+label:
+  # Which of the 7 continuous civil_comments dimensions is the training
+  # target. See docs/model_design.md for why toxicity is first.
+  target: toxicity
+  # Threshold used to binarize the continuous [0,1] toxicity score into a
+  # ground-truth label for training/evaluation. This is a SEPARATE concept
+  # from the decision threshold below (which operates on the model's
+  # predicted probability, not the dataset's annotator-agreement score).
+  # 0.5 = majority of annotators flagged the comment as toxic.
+  ground_truth_threshold: 0.5
+
+decision_threshold:
+  # Candidate decision thresholds swept on the VALIDATION set only.
+  candidates: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+  # Metric used to pick the operating threshold from the sweep.
+  selection_metric: f1
