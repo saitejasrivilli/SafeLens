@@ -60,6 +60,8 @@ def build_compute_metrics_fn():
             logits = logits[0]
         probs = torch.softmax(torch.from_numpy(np.asarray(logits)), dim=-1)[:, 1].numpy()
         labels = eval_pred.label_ids
+        if isinstance(labels, tuple):
+            labels = labels[0]
         metrics = compute_metrics(labels, probs, MODEL_SELECTION_THRESHOLD)
         # Trainer only accepts flat scalar metrics.
         return {
